@@ -1,0 +1,52 @@
+\begin{table}[!htbp]\centering
+\caption{Long-short portfolio alphas across factor models}\label{tab:alphas}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccccc}
+\toprule
+ & Raw & CAPM & FF3 & FFC4 & FF5 & FF6 & HXZ4 & HXZ5 \\
+\midrule
+\multicolumn{9}{l}{\emph{Panel A: Sorts on the peer return}} \\
+$\alpha$ (EW) & 2.29** & 2.60** & 3.13*** & 2.93*** & 3.17*** & 3.01*** & 2.87*** & 2.87*** \\
+ & (2.55) & (2.56) & (3.02) & (3.08) & (3.03) & (3.09) & (2.80) & (2.89) \\
+$\alpha$ (VW) & 2.00*** & 2.10*** & 2.07*** & 2.03*** & 2.08*** & 2.08*** & 2.02*** & 2.02*** \\
+ & (3.52) & (3.38) & (3.17) & (3.05) & (3.41) & (3.32) & (3.10) & (3.10) \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Panel B: Sorts on the industry-adjusted peer return}} \\
+$\alpha$ (EW) & 1.23* & 1.12* & 1.38** & 1.32** & 1.40** & 1.37** & 1.32** & 1.32** \\
+ & (1.91) & (1.76) & (1.98) & (2.12) & (2.01) & (2.10) & (2.11) & (2.12) \\
+$\alpha$ (VW) & 0.42 & 0.38 & 0.38 & 0.46 & 0.35 & 0.46 & 0.40 & 0.40 \\
+ & (0.97) & (0.84) & (0.91) & (1.15) & (0.84) & (1.14) & (0.97) & (0.99) \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Panel C: Factor loadings, equal-weighted long-short portfolio of Panel A}} \\
+MKT &  & -0.29* & -0.51** & -0.35* & -0.37* & -0.29* &  &  \\
+ &  & (-1.87) & (-2.06) & (-1.79) & (-1.91) & (-1.68) &  &  \\
+SMB &  &  & 1.17* & 1.47** &  &  &  &  \\
+ &  &  & (1.91) & (2.00) &  &  &  &  \\
+HML &  &  & -0.21 & -0.06 &  &  &  &  \\
+ &  &  & (-1.21) & (-0.24) &  &  &  &  \\
+MOM &  &  &  & 0.69 &  & 0.52 &  &  \\
+ &  &  &  & (1.60) &  & (1.47) &  &  \\
+SMB$_5$ &  &  &  &  & 1.15** & 1.43** &  &  \\
+ &  &  &  &  & (2.57) & (2.34) &  &  \\
+HML$_5$ &  &  &  &  & -1.02*** & -0.90*** &  &  \\
+ &  &  &  &  & (-3.35) & (-3.56) &  &  \\
+RMW &  &  &  &  & -0.32 & -0.15 &  &  \\
+ &  &  &  &  & (-1.09) & (-0.60) &  &  \\
+CMA &  &  &  &  & 1.46** & 1.24** &  &  \\
+ &  &  &  &  & (2.04) & (2.13) &  &  \\
+MKT$_q$ &  &  &  &  &  &  & -0.43** & -0.40** \\
+ &  &  &  &  &  &  & (-1.98) & (-2.01) \\
+ME &  &  &  &  &  &  & 0.89* & 1.08** \\
+ &  &  &  &  &  &  & (1.65) & (2.12) \\
+IA &  &  &  &  &  &  & 0.20 & 0.37 \\
+ &  &  &  &  &  &  & (0.53) & (0.93) \\
+ROE &  &  &  &  &  &  & 0.08 & -0.17 \\
+ &  &  &  &  &  &  & (0.52) & (-0.62) \\
+EG &  &  &  &  &  &  &  & 0.50 \\
+ &  &  &  &  &  &  &  & (0.93) \\
+$R^2$ & 0.00 & 0.03 & 0.17 & 0.25 & 0.26 & 0.30 & 0.13 & 0.14 \\
+Months & 77 & 77 & 77 & 77 & 77 & 77 & 77 & 77 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Time-series regressions of the monthly return of the quintile long-short portfolio (top minus bottom quintile of the customer-overlap peer return; Table~\ref{tab:sorts}) on factor models: CAPM; Fama-French three-factor (FF3); FF3 plus momentum (FFC4); Fama-French five-factor (FF5); FF5 plus momentum (FF6); and the $q$-factor (HXZ4) and $q^5$ (HXZ5) models of \citet{HouXueZhang2015} and \citet{HouMoXueZhang2021}. Alphas in percent per month; Raw is the average long-short return without factor adjustment. Panel B sorts into quintiles on the peer return after removing, month by month, its cross-sectional projection on the own-industry, same-category (EW and VW), and FF48 industry returns. Panel C reports the factor loadings of the equal-weighted regressions in Panel A: MKT, SMB, HML, and MOM are the market, size, value, and momentum factors of the three-factor and Carhart models; SMB$_5$ and HML$_5$ are the size and value factors of the five-factor model, with RMW (profitability) and CMA (investment); MKT$_q$, ME, IA, ROE, and EG are the market, size, investment, profitability, and expected-growth factors of the $q$ and $q^5$ models. $R^2$ and Months refer to the equal-weighted regressions in Panel A. EW and VW denote equal and value weights. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}

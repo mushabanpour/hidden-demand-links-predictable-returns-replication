@@ -1,0 +1,74 @@
+{
+ "data": {
+  "months": 89,
+  "first": "2019-01",
+  "last": "2026-05",
+  "poi_min": 707180,
+  "poi_median": 1045174,
+  "poi_max": 1221041,
+  "poi_argmin": "2020-04",
+  "branded_min": 439002,
+  "branded_median": 576741,
+  "branded_max": 790562,
+  "branded_argmin": "2020-04"
+ },
+ "markets": {
+  "mean": 12945.23595505618,
+  "min": 11501,
+  "max": 13664,
+  "zip_mean": 9855.573033707866,
+  "county_mean": 3089.6629213483147
+ },
+ "overlap": {
+  "pairs_per_month": 16163.233766233767,
+  "linked_per_month": 1427.2467532467533,
+  "share_linked_all": 0.08798586870326085,
+  "share_linked_samecat": 0.8548885355746736,
+  "samecat_pairs_per_month": 1202.935064935065,
+  "linked_cross_category_share": 0.26760341583282427,
+  "linked_cross_category_weight": 0.05684316527038044,
+  "median_linked_pct": 1.0031932026222434,
+  "p75_linked_pct": 4.762572571616319,
+  "median_peers": 13.0,
+  "firms_per_month": 180.24675324675326,
+  "share_firms_with_peers": 0.9529505007565386
+ },
+ "persistence": {
+  "RPS": 0.9574916187296086,
+  "STORE": 0.9846676779554985
+ },
+ "meme": {
+  "ew_ls_jan2021": 0.6345933235294117,
+  "vw_ls_jan2021": 0.06500095565915015,
+  "ew_ls_mean": 0.022868310362579993,
+  "ew_ls_mean_ex_jan2021": 0.014819297031437473,
+  "ew_pos_share": 0.6493506493506493,
+  "vw_pos_share": 0.6753246753246753,
+  "stocks": {
+   "GME": {
+    "ret_jan2021": 16.250531,
+    "quintile": 5
+   },
+   "AMC": {
+    "ret_jan2021": 5.254717,
+    "quintile": 5
+   }
+  }
+ },
+ "quintiles": {
+  "ew": [
+   0.34099495819847175,
+   0.8858409330278807,
+   1.18520229629564,
+   1.3431406642753296,
+   2.6278259944564715
+  ],
+  "vw": [
+   0.14157663814315619,
+   1.0666011541219336,
+   1.434985258873602,
+   0.9955287879174392,
+   2.1434127778112004
+  ]
+ }
+}

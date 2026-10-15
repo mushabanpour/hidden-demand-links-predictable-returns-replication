@@ -1,0 +1,8 @@
+['sig'] {'sig': (np.float64(0.143), np.float64(2.17))} ex2020 {'sig': (np.float64(0.061), np.float64(1.37))}
+['co_E', 'co_X'] {'co_E': (np.float64(0.237), np.float64(2.62)), 'co_X': (np.float64(-0.062), np.float64(-2.31))} ex2020 {'co_E': (np.float64(0.133), np.float64(2.78)), 'co_X': (np.float64(-0.043), np.float64(-1.56))}
+['sig', 'sc_store', 'sc_home'] {'sig': (np.float64(0.134), np.float64(2.01)), 'sc_store': (np.float64(0.312), np.float64(0.71)), 'sc_home': (np.float64(-0.446), np.float64(-0.7))} ex2020 {'sig': (np.float64(0.066), np.float64(1.3)), 'sc_store': (np.float64(-0.083), np.float64(-0.49)), 'sc_home': (np.float64(0.067), np.float64(0.3))}
+['co_strong', 'co_medium', 'co_weak'] {'co_strong': (np.float64(0.122), np.float64(2.27)), 'co_medium': (np.float64(0.088), np.float64(1.8)), 'co_weak': (np.float64(0.036), np.float64(1.31))} ex2020 {'co_strong': (np.float64(0.054), np.float64(1.77)), 'co_medium': (np.float64(0.041), np.float64(1.38)), 'co_weak': (np.float64(0.064), np.float64(2.53))}
+['sig', 'RPS_pos', 'HOME_pos'] {'sig': (np.float64(0.137), np.float64(2.11)), 'RPS_pos': (np.float64(0.241), np.float64(1.53)), 'HOME_pos': (np.float64(-1.605), np.float64(-1.63))} ex2020 {'sig': (np.float64(0.058), np.float64(1.22)), 'RPS_pos': (np.float64(0.072), np.float64(0.53)), 'HOME_pos': (np.float64(-0.897), np.float64(-0.88))}
+['RPS_pos'] {'RPS_pos': (np.float64(0.243), np.float64(1.47))} ex2020 {'RPS_pos': (np.float64(0.065), np.float64(0.47))}
+['RPS_D_pos'] {'RPS_D_pos': (np.float64(0.171), np.float64(1.44))} ex2020 {'RPS_D_pos': (np.float64(0.112), np.float64(0.88))}
+['RPSX_pos'] {'RPSX_pos': (np.float64(0.326), np.float64(1.7))} ex2020 {'RPSX_pos': (np.float64(0.104), np.float64(0.88))}

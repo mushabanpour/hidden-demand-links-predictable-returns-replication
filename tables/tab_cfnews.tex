@@ -1,0 +1,27 @@
+\begin{sidewaystable}\centering
+\caption{Customer-overlap peer returns and the focal firm's cash-flow news}\label{tab:cfnews}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccc}
+\toprule
+ & \multicolumn{4}{c}{Card-spend growth} & \multicolumn{4}{c}{Next earnings announcement} & Return \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-10}
+ & $t$ & $t+1$ & $t+2$ & Avg. & SUE & Forecast err. & Rev.\ surprise & CAR[$-1,+1$] & $r_{t+1}$ \\
+\midrule
+Customer-overlap peer return (std.) & -1.207 & 0.270 & -0.367 & -0.528 & 0.010 & -0.049 & -0.053 & 0.122 & 0.853* \\
+ & (-1.61) & (0.20) & (-0.28) & (-0.54) & (0.38) & (-0.71) & (-1.09) & (0.69) & (1.83) \\
+Peer return $\times$ announces in $t+1$ &  &  &  &  &  &  &  &  & 0.241 \\
+ &  &  &  &  &  &  &  &  & (0.74) \\
+Announces in $t+1$ &  &  &  &  &  &  &  &  & 0.741* \\
+ &  &  &  &  &  &  &  &  & (1.94) \\
+Own card-spend growth, $t-1$ & 0.706*** & 0.524*** & 0.444*** & 0.554*** &  &  &  &  &  \\
+ & (9.86) & (5.51) & (5.08) & (6.68) &  &  &  &  &  \\
+Own return & 0.082* & 0.075 & 0.067 & 0.080 & 0.595** & 0.009* & 0.371 & 0.003 & -0.044 \\
+ & (1.89) & (1.08) & (1.14) & (1.56) & (2.47) & (1.65) & (1.02) & (0.22) & (-1.37) \\
+\addlinespace
+Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
+Month FE & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
+Observations & 9,283 & 9,227 & 9,194 & 9,026 & 9,995 & 9,324 & 10,000 & 10,085 & 10,899 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel regressions with month fixed effects; standard errors clustered by firm and month ($t$-statistics in parentheses). The peer return is standardized each month. Card-spend growth is the year-over-year log growth of the firm's share of total panel card spending in month $t$, $t+1$, $t+2$ (none of which is public at the end of month $t$) and their average. Coefficients on the peer return and on the announcement variables are multiplied by 100 for card-spend growth, the forecast error, CAR, and the return, so they are in percentage points; SUE and the revenue surprise are in units of their own standard deviation; the coefficients on own lagged growth and own return are not rescaled. SUE is the seasonal change in EPS scaled by its standard deviation over the previous eight quarters; the forecast error is actual minus the last IBES median forecast, scaled by price (\%); the revenue surprise is the seasonal change in sales scaled by its standard deviation; CAR[$-1,+1$] is the market-adjusted announcement return (\%). Announcement variables refer to the first earnings announcement in months $t+1$ to $t+3$. Controls: own return, own-industry, FF48, and same-category returns, log size, log book-to-market, and momentum, all at $t$. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{sidewaystable}

@@ -1,0 +1,34 @@
+\begin{table}[!htbp]\centering
+\caption{What customer overlap captures}\label{tab:networks}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
+\toprule
+\multicolumn{5}{l}{\emph{Panel A: Average monthly cross-sectional correlation}} \\
+ & \multicolumn{2}{c}{With customer overlap} & \multicolumn{2}{c}{With customer homes} \\
+ & \multicolumn{2}{c}{(same-category pairs)} & \multicolumn{2}{c}{(all pairs)} \\
+\midrule
+Customer overlap & \multicolumn{2}{c}{} & \multicolumn{2}{c}{0.09} \\
+Shared tastes (RPS) & \multicolumn{2}{c}{0.26} & \multicolumn{2}{c}{0.07} \\
+Shared tastes, location-free channels & \multicolumn{2}{c}{0.20} & \multicolumn{2}{c}{0.05} \\
+Raw co-shopping profiles & \multicolumn{2}{c}{0.07} & \multicolumn{2}{c}{0.64} \\
+Store footprint & \multicolumn{2}{c}{0.33} & \multicolumn{2}{c}{0.80} \\
+Customer homes & \multicolumn{2}{c}{0.29} & \multicolumn{2}{c}{} \\
+Income distribution & \multicolumn{2}{c}{0.16} & \multicolumn{2}{c}{0.12} \\
+Same FF48 industry & \multicolumn{2}{c}{0.07} & \multicolumn{2}{c}{0.05} \\
+TNIC-3 rivals & \multicolumn{2}{c}{-0.08} & \multicolumn{2}{c}{0.05} \\
+\addlinespace
+\multicolumn{5}{l}{\emph{Panel B: Same-category pairs by customer-overlap tercile}} \\
+ & Unlinked & Low & Mid & High \\
+\midrule
+Customer overlap & 0.00 & 0.00 & 0.02 & 0.14 \\
+Shared tastes (RPS) & 0.17 & 0.20 & 0.26 & 0.37 \\
+Store footprint & 0.17 & 0.32 & 0.51 & 0.60 \\
+Customer homes & 0.21 & 0.39 & 0.57 & 0.64 \\
+Income distribution & 0.96 & 0.95 & 0.96 & 0.97 \\
+Same FF48 industry & 0.53 & 0.63 & 0.67 & 0.71 \\
+TNIC-3 rivals & 0.37 & 0.53 & 0.49 & 0.42 \\
+Pairs per month & 169 & 345 & 344 & 345 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Pairs of sample firms in each formation month. Customer overlap is the share of customers two firms have in common, as a fraction (Section~\ref{sec:co}); it is measured from SafeGraph's same-category cross-shopping lists. Same-category pairs are pairs of firms with the same category (the most frequent category of their stores over months $t-12$ to $t-1$). Panel A reports the time-series average of the monthly cross-sectional correlation between each network and customer overlap among same-category pairs (first column), and between each network and the customer-home network among all pairs (second column). Panel B sorts same-category pairs each month into those with no measured overlap and terciles of positive overlap, and reports averages of each network and the share of pairs in the same FF48 industry or linked in TNIC-3.\end{minipage}
+\end{table}

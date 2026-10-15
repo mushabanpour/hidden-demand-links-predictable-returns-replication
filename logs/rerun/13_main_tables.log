@@ -1,0 +1,37 @@
+/Users/muhammad/Desktop/Safegraph/revision/code/13_main_tables.py:60: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  P["sig_adj"] = P.groupby("month", group_keys=False).apply(resid)
+{
+"ew_Raw": 0.02286831036257999,
+"ew_CAPM": 0.026017833255746834,
+"ew_FF3": 0.03126824251747725,
+"ew_FFC4": 0.02931339230123223,
+"ew_FF5": 0.03165970749741515,
+"ew_FF6": 0.03008746379764572,
+"ew_HXZ4": 0.02871210874270836,
+"ew_HXZ5": 0.02870574721430421,
+"vw_Raw": 0.020018361396680444,
+"vw_CAPM": 0.02099613140553198,
+"vw_FF3": 0.020664687720214063,
+"vw_FFC4": 0.020326776874268843,
+"vw_FF5": 0.02084940608204968,
+"vw_FF6": 0.02079777773845812,
+"vw_HXZ4": 0.0201953809642919,
+"vw_HXZ5": 0.020195638551096125,
+"ew_adj_Raw": 0.012262512705613472,
+"ew_adj_CAPM": 0.011175380938668504,
+"ew_adj_FF3": 0.013807581544843446,
+"ew_adj_FFC4": 0.01320946141841224,
+"ew_adj_FF5": 0.014043934113913447,
+"ew_adj_FF6": 0.013735379168292509,
+"ew_adj_HXZ4": 0.013219604632667852,
+"ew_adj_HXZ5": 0.013217417416600936,
+"vw_adj_Raw": 0.004154563914570507,
+"vw_adj_CAPM": 0.0038360945254465725,
+"vw_adj_FF3": 0.003753991295444232,
+"vw_adj_FFC4": 0.0045837334631335875,
+"vw_adj_FF5": 0.0035496948725185604,
+"vw_adj_FF6": 0.004566183538814742,
+"vw_adj_HXZ4": 0.0039945499470413846,
+"vw_adj_HXZ5": 0.003997447835968439
+}
+FM: [(np.float64(0.127), np.float64(2.81)), (np.float64(0.133), np.float64(2.65)), (np.float64(0.187), np.float64(3.04)), (np.float64(0.18), np.float64(3.08)), (np.float64(0.143), np.float64(2.17)), (np.float64(0.118), np.float64(1.73)), (np.float64(0.132), np.float64(2.06))]

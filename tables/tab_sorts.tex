@@ -1,0 +1,28 @@
+\begin{table}[!htbp]\centering
+\caption{Portfolios sorted on customer-overlap peers' returns}\label{tab:sorts}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccccc}
+\toprule
+Portfolio & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & High$-$Low \\
+\midrule
+\multicolumn{12}{l}{\emph{Panel A: Quintiles ($Q=5$)}} \\
+Equal-weighted & 0.34 & 0.89 & 1.19 & 1.34 & 2.63 &  &  &  &  &  & 2.29** \\
+ & (0.34) & (0.87) & (1.50) & (1.31) & (1.65) &  &  &  &  &  & (2.55) \\
+Value-weighted & 0.14 & 1.07 & 1.43 & 1.00 & 2.14 &  &  &  &  &  & 2.00*** \\
+ & (0.23) & (1.84) & (2.61) & (2.54) & (3.04) &  &  &  &  &  & (3.52) \\
+\addlinespace
+\multicolumn{12}{l}{\emph{Panel B: Deciles ($Q=10$)}} \\
+Equal-weighted & 0.15 & 0.54 & 1.19 & 0.57 & 0.49 & 1.89 & 0.77 & 1.91 & 2.72 & 2.56 & 2.41** \\
+ & (0.15) & (0.50) & (1.06) & (0.58) & (0.64) & (2.02) & (0.76) & (1.72) & (1.37) & (1.81) & (2.53) \\
+Value-weighted & -0.09 & 0.43 & 0.64 & 0.70 & 1.71 & 0.90 & 0.83 & 1.31 & 1.92 & 1.41 & 1.50*** \\
+ & (-0.15) & (0.57) & (0.89) & (0.96) & (3.09) & (1.48) & (1.48) & (2.52) & (2.59) & (2.33) & (2.59) \\
+\addlinespace
+\multicolumn{12}{l}{\emph{Panel C: Terciles ($Q=3$)}} \\
+Equal-weighted & 0.62 & 0.99 & 2.22 &  &  &  &  &  &  &  & 1.60** \\
+ & (0.61) & (1.22) & (1.64) &  &  &  &  &  &  &  & (2.45) \\
+Value-weighted & 0.58 & 1.26 & 2.01 &  &  &  &  &  &  &  & 1.43*** \\
+ & (0.98) & (2.68) & (3.25) &  &  &  &  &  &  &  & (2.78) \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} At the end of each month $t$, consumer-facing stocks are sorted into $Q$ portfolios on the month-$t$ return of their customer-overlap peers (other sample firms weighted by the share of customers they have in common with the firm); the network uses card data from months $t-12$ to $t-1$ only. Portfolio 1 holds the firms whose peers had the lowest returns and portfolio $Q$ those whose peers had the highest. The table reports average month-$t+1$ returns in percent per month; High$-$Low is portfolio $Q$ minus portfolio 1. Value weights use month-$t$ market capitalization. Newey-West $t$-statistics (four lags) in parentheses. Sample: 2019-08 to 2025-12, 77 months. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}

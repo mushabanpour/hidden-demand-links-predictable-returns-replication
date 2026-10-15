@@ -1,0 +1,19 @@
+('Market cap', 'Small') 0.187 1.45 5441
+('Market cap', 'Large') 0.065 1.29 5248
+('Analyst coverage', 'Low') 0.206 1.67 5598
+('Analyst coverage', 'High') 0.049 0.65 5091
+('Inst.\\ ownership', 'Low') 0.155 1.23 5250
+('Inst.\\ ownership', 'High') 0.225 1.28 5436
+('Share turnover', 'Low') 0.091 1.24 5145
+('Share turnover', 'High') 0.182 1.47 5535
+('Industry return', 'Low') 0.244 2.63 5280
+('Industry return', 'High') 0.087 0.98 5409
+Same FF48 industry (np.float64(0.10025552331297635), np.float64(2.4136360599806985)) Different industry (np.float64(0.004019701955097035), np.float64(0.1153959011321062))
+TNIC-3 rival (np.float64(0.04286239255367043), np.float64(1.2782713552902316)) Not a TNIC-3 rival (np.float64(0.1348431336147033), np.float64(3.0557419808962503))
+Shared analyst (np.float64(0.17520287631966183), np.float64(1.540020364006012)) No shared analyst (np.float64(0.07042755701702891), np.float64(2.822600471528753))
+All firms 2 (np.float64(0.05596427035602468), np.float64(1.1720584374429857)) (np.float64(0.05792958116447625), np.float64(3.100815266055567))
+All firms 14 (np.float64(0.06433634126342229), np.float64(1.4580676377727693)) (np.float64(0.0899720066742996), np.float64(3.2063509619012964))
+Large firms 2 (np.float64(0.09503152792484232), np.float64(2.3765413651898)) (np.float64(0.024943544123651722), np.float64(1.5397838304298974))
+Large firms 14 (np.float64(0.02794604292418382), np.float64(0.47532344851242153)) (np.float64(0.043614988401069164), np.float64(1.2752164596534417))
+Small firms 2 (np.float64(0.03960471375035493), np.float64(0.6194098649902876)) (np.float64(0.08379718798865192), np.float64(3.0027391639456207))
+Small firms 14 (np.float64(0.09066711191403275), np.float64(1.2226572306638095)) (np.float64(0.13338675578818515), np.float64(2.5757421162683047))

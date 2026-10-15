@@ -1,0 +1,34 @@
+\begin{sidewaystable}\centering
+\caption{Customer overlap and future comovement of demand, sales, and returns}\label{tab:comove}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccc}
+\toprule
+ & \multicolumn{3}{c}{Card-spend growth} & \multicolumn{3}{c}{Daily returns} & \multicolumn{3}{c}{Sales growth} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) & (9) \\
+\midrule
+Customer overlap & 0.028*** & 0.013*** & 0.002 & 0.015*** & 0.008*** & -0.000 & 0.010** & 0.001 & 0.015** \\
+ & (4.29) & (2.93) & (0.16) & (4.72) & (5.35) & (-0.07) & (2.21) & (0.34) & (2.14) \\
+Shared tastes (RPS) &  & 0.027*** & -0.008 &  & 0.015*** & 0.002 &  & 0.020*** & -0.025* \\
+ &  & (4.94) & (-0.50) &  & (8.13) & (0.59) &  & (4.43) & (-1.82) \\
+Store footprint &  & 0.001 & -0.031 &  & -0.013*** & -0.006 &  & -0.018 & -0.014 \\
+ &  & (0.16) & (-1.28) &  & (-3.16) & (-0.54) &  & (-1.16) & (-0.30) \\
+Customer homes &  & 0.022* & 0.001 &  & 0.028*** & 0.012* &  & 0.059*** & -0.025 \\
+ &  & (1.75) & (0.10) &  & (6.30) & (1.71) &  & (3.55) & (-0.82) \\
+Income distribution &  & 0.005 & 0.016 &  & -0.005** & -0.014** &  & -0.001 & 0.026 \\
+ &  & (1.11) & (1.09) &  & (-2.38) & (-2.06) &  & (-0.17) & (0.75) \\
+Same FF48 industry &  & 0.021** &  &  & 0.022*** &  &  & -0.040** &  \\
+ &  & (2.02) &  &  & (4.02) &  &  & (-2.57) &  \\
+TNIC-3 rivals &  & 0.155*** &  &  & 0.079*** &  &  & 0.099*** &  \\
+ &  & (7.66) &  &  & (9.86) &  &  & (6.50) &  \\
+$|\Delta$ log size$|$ &  & -0.013*** &  &  & -0.025*** &  &  & -0.007 &  \\
+ &  & (-3.20) &  &  & (-12.23) &  &  & (-1.37) &  \\
+\addlinespace
+Year FE & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
+Pair FE &  &  & Yes &  &  & Yes &  &  & Yes \\
+Mean of dep.\ var. & 0.026 & 0.026 & 0.026 & 0.118 & 0.118 & 0.118 & 0.229 & 0.229 & 0.229 \\
+Pair-years & 80,180 & 80,180 & 77,152 & 93,904 & 93,904 & 88,822 & 83,980 & 83,980 & 80,158 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Each observation is a pair $(i,j)$, $i<j$, of sample firms in year $y=2020,\ldots,2025$. The dependent variable is a correlation measured over year $y$: of monthly card-spend innovations (the change in the year-over-year log growth of each firm's share of total panel spending, net of its cross-sectional median; at least nine common months), of daily market-adjusted returns (at least 120 common days), or of quarterly year-over-year sales growth over years $y$ and $y+1$ (at least six common quarters). Network similarities are measured at the end of December $y-1$ from card data through November $y-1$ and standardized to unit variance; the same-industry and TNIC-3 indicators and the absolute difference in log size are not standardized. Standard errors are clustered by both firms of the pair; $t$-statistics in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{sidewaystable}

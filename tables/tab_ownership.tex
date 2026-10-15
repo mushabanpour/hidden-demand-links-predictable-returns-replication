@@ -1,0 +1,40 @@
+\begin{table}[!htbp]\centering
+\caption{Customer overlap and common ownership}\label{tab:ownership}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
+\toprule
+\multicolumn{5}{l}{\emph{Panel A: Common ownership of same-category pairs}} \\
+ & \multicolumn{2}{c}{All 13F institutions} & \multicolumn{2}{c}{Excl.\ ten largest holders} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & (1) & (2) & (3) & (4) \\
+\midrule
+Customer overlap (std.) & 0.012** &  & 0.018*** &  \\
+ & (1.98) &  & (6.21) &  \\
+Overlap-linked pair &  & 0.023*** &  & 0.005 \\
+ &  & (3.22) &  & (1.02) \\
+Mean of dep.\ var. & 0.476 & 0.476 & 0.204 & 0.204 \\
+Controls, month FE & Yes & Yes & Yes & Yes \\
+Pair-months & 93,549 & 93,549 & 93,549 & 93,549 \\
+\addlinespace
+\multicolumn{5}{l}{\emph{Panel B: Fama-MacBeth regressions of month-$t+1$ returns}} \\
+ & (1) & (2) & (3) &  \\
+\midrule
+Customer-overlap peer return & 0.143** & 0.145** &  &  \\
+ & (2.17) & (2.14) &  &  \\
+Common-ownership peer return (all firms) &  & 1.312 &  &  \\
+ &  & (1.63) &  &  \\
+Common-ownership peer return (same category) &  & 0.072 &  &  \\
+ &  & (0.48) &  &  \\
+Overlap peers with high common ownership &  &  & 0.124*** &  \\
+ &  &  & (2.84) &  \\
+Overlap peers with low common ownership &  &  & 0.069 &  \\
+ &  &  & (1.61) &  \\
+High $-$ low &  &  & 0.055* &  \\
+ &  &  & (1.85) &  \\
+\addlinespace
+Controls & Yes & Yes & Yes &  \\
+Observations & 10,689 & 10,689 & 10,689 &  \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel A: pair-month regressions for pairs of sample firms in the same SafeGraph category of the \citet{AntonPolk2014} measure of common ownership---the value of both firms' shares held by 13F institutions that hold both, divided by the two firms' combined market capitalization---from the latest 13F quarter available at the end of month $t$, on standardized customer overlap or an indicator for positive overlap. Columns (3) and (4) exclude, each quarter, the ten institutions with the largest holdings in the sample firms. Controls: same FF48 industry, the absolute difference in log size, and the sum of the two firms' institutional ownership; standard errors clustered by both firms. Panel B: Fama-MacBeth regressions with the controls of Table~\ref{tab:fm}, column (5). The common-ownership peer return weights peers by common ownership (excluding the ten largest holders). The sample is firms with at least one customer-overlap peer; a peer return that is undefined for a firm (no commonly owned peer, or an empty high or low subset) is set to its monthly cross-sectional mean. Column (3) splits each firm's overlap peers at the monthly median of common ownership among overlap-linked pairs; ``High $-$ low'' is the average monthly difference of the two slopes. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}

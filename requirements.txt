@@ -1,0 +1,11 @@
+# Python 3.13.9 (Anaconda); LaTeX: pdfTeX 1.40.29, TeX Live 2026
+numpy==2.3.5
+pandas==2.2.3
+pyarrow==21.0.0
+duckdb==1.5.5
+scipy==1.16.3
+statsmodels==0.14.5
+pyfixest==0.60.0
+matplotlib==3.10.6
+psycopg2==2.9.12
+openpyxl==3.1.5   # reading the Census CBSA delineation file (00_aux_inputs.py)

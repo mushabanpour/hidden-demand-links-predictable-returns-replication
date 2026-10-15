@@ -1,0 +1,9 @@
+# licensed data (SafeGraph, CRSP, Compustat, IBES, 13F) and everything derived from them stay out of the repository
+data/*
+!data/raw/
+data/raw/*
+!data/raw/zcta_county.txt
+!data/raw/cbsa_2023.xlsx
+__pycache__/
+*.pyc
+.DS_Store

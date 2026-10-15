@@ -1,0 +1,21 @@
+\begin{table}[!htbp]\centering
+\caption{Who underreacts? Subsamples by attention proxies}\label{tab:subsamples}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccccccc}
+\toprule
+ & \multicolumn{2}{c}{Market cap} & \multicolumn{2}{c}{Analyst coverage} & \multicolumn{2}{c}{Inst.\ ownership} & \multicolumn{2}{c}{Share turnover} & \multicolumn{2}{c}{Industry return} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+ & Small & Large & Low & High & Low & High & Low & High & Low & High \\
+\midrule
+Customer-overlap peer return & 0.187 & 0.065 & 0.206* & 0.049 & 0.155 & 0.225 & 0.091 & 0.182 & 0.244*** & 0.087 \\
+ & (1.45) & (1.29) & (1.67) & (0.65) & (1.23) & (1.28) & (1.24) & (1.47) & (2.63) & (0.98) \\
+\addlinespace
+Low $-$ High & \multicolumn{2}{c}{0.092} & \multicolumn{2}{c}{0.045} & \multicolumn{2}{c}{0.066} & \multicolumn{2}{c}{-0.058} & \multicolumn{2}{c}{-0.011} \\
+ & \multicolumn{2}{c}{(1.07)} & \multicolumn{2}{c}{(0.60)} & \multicolumn{2}{c}{(0.88)} & \multicolumn{2}{c}{(-0.58)} & \multicolumn{2}{c}{(-0.16)} \\
+\addlinespace
+Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
+Observations & 5,441 & 5,248 & 5,598 & 5,091 & 5,250 & 5,436 & 5,145 & 5,535 & 5,280 & 5,409 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Fama-MacBeth regressions of month-$t+1$ returns on the month-$t$ customer-overlap peer return and the controls of Table~\ref{tab:fm}, column (5), estimated separately for firms below and above the monthly median of market capitalization, the number of IBES analysts (firms at the median are in the low group), the 13F institutional ownership ratio, share turnover (average monthly volume divided by shares outstanding over months $t-11$ to $t$), and the FF48 industry return. ``Low $-$ High'' is the coefficient on the interaction of the peer return with a below-median indicator in a pooled Fama-MacBeth regression. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}
