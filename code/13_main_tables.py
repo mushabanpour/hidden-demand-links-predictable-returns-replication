@@ -148,7 +148,8 @@ def alpha_table(res, P):
              "MKT$_q$, ME, IA, ROE, and EG are the market, size, investment, profitability, and expected-growth factors of the "
              "$q$ and $q^5$ models. $R^2$ and Months refer to the equal-weighted regressions in Panel A. EW and VW denote equal and "
              "value weights. Newey-West $t$-statistics (four lags) in parentheses.")
-    tex = ap.latex_table([["", *models]], rows, "Long-short portfolio alphas across factor models", "tab:alphas", notes)
+    tex = ap.latex_table([["", *models]], rows, "Long-short portfolio alphas across factor models", "tab:alphas", notes,
+                         stretch=0.9)
     open(f"{TAB}/tab_alphas.tex", "w").write(tex)
     return out
 
