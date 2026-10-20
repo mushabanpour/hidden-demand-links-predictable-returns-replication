@@ -77,7 +77,7 @@ minutes on a laptop; the placebo networks use seed 7).
 | Table 10 | `15_cashflow_news.py co` | `tables/tab_cfnews.tex` |
 | Tables 11, 12 | `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex` |
 | Tables 13–15 | `16_attention.py co` | `tables/tab_subsamples.tex`, `tab_visibility.tex`, `tab_bigsmall.tex` |
-| Table 16; Figure 4 | `44_vintage.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
+| Table 16; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
 | Table 17 | `41_by_year.py` | `tables/tab_byyear.tex`; `logs/byyear.json` |
 | Table 18 | `43_category_exclusions.py` | `tables/tab_category_excl.tex`; `logs/category_excl.json` |
 | Table 19 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |

@@ -11,12 +11,12 @@ L = [r"\begin{longtable}{p{5.2cm}lrll}",
      r"\caption{Point-in-time brand ownership spells}\label{tab:overrides}\\",
      r"\toprule Brand & Owner & PERMNO & From & To \\ \midrule\endfirsthead",
      r"\toprule Brand & Owner & PERMNO & From & To \\ \midrule\endhead"]
-for b, p, s, e, note in m.OVERRIDES:
+for b, p, s, e, note in sorted(m.OVERRIDES, key=lambda r: (r[0].casefold(), r[2] or "")):   # alphabetical by brand
     owner = n.ticker.get(p, "") if p else "not U.S.-listed"
     L.append(f"{esc(b)} & {esc(owner)} & {p or ''} & {s or 'start'} & {e or 'end'} \\\\")
-note = ("\\footnotesize \\emph{Notes:} SafeGraph's Brand Info file reports current ownership. For every brand with "
-        "material card spending whose ownership changed between January 2019 and May 2026, the table lists the dated "
-        "ownership spells used to assign the brand to a CRSP PERMNO. Spells marked ``not U.S.-listed'' (brands sold "
+note = ("\\footnotesize \\emph{Notes:} SafeGraph's Brand Info file reports current ownership. For every brand "
+        "whose ownership changed between January 2019 and May 2026 (Section~\\ref{sec:data}), the table lists, in alphabetical "
+        "order of brand, the dated ownership spells used to assign the brand to a CRSP PERMNO. Spells marked ``not U.S.-listed'' (brands sold "
         "to a private or foreign owner) are excluded. All other brands are linked to the PERMNO that most recently "
         "traded under the ticker reported by SafeGraph; ``start'' and ``end'' denote the sample boundaries.")
 L += [r"\bottomrule", r"\multicolumn{5}{p{14.5cm}}{" + note + r"}\\", r"\end{longtable}"]

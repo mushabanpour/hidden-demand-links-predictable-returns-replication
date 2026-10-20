@@ -109,6 +109,7 @@ def main():
     P = variant_signals(P, "ovl_var", "CO_")
     P = variant_signals(P, "sim_var", "RPS_")
     P = P.merge(pd.read_parquet(f"{R}/data/derived/co_lag.parquet"), on=["permno", "month"], how="left")   # 44_vintage.py
+    P = P.merge(pd.read_parquet(f"{R}/data/derived/co_retail.parquet"), on=["permno", "month"], how="left")   # 47_retail_universe.py
     sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret", "me", "nyse"])
     f2 = sm[["permno", "month", "ret"]].copy(); f2["month"] = f2.month - 2
     P = P.merge(f2.rename(columns={"ret": "ret_f2"}), on=["permno", "month"], how="left")
@@ -131,6 +132,9 @@ def main():
              ("Excluding microcaps (NYSE 20th pct.)", P[P.me >= P.nyse20], "sig", "ret_f1"),
              ("Skip a month (return in $t+2$)", P, "sig", "ret_f2"),
              ("Card coverage $\\geq$ 0.25\\% of sales", P[P.cov_ratio >= 0.0025], "sig", "ret_f1")]
+    Dr = P[P.retail.fillna(False).astype(bool)].copy()
+    Dr["sig2"] = Dr.groupby("month").CO_RETAIL.transform(lambda s: ap.winsor(s))
+    specs.append(("Retail and restaurant firms only (focal firms and peers)", Dr, "sig2", "ret_f1"))
     for c, lab in [("co_eq", "Overlapping peers equal-weighted"), ("CO_ASYM", "One-directional overlap (share of $i$'s customers)"),
                    ("CO_W6", "6-month network window"), ("CO_W24", "24-month network window"),
                    ("CO_FROZEN", "Frozen 2019 network (formation 2020--2025)"),
@@ -158,9 +162,11 @@ def main():
            "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}"]
     notes = ("Each row re-estimates the main tests under one change. EW/VW FF6 $\\alpha$: monthly alpha of the quintile "
              "long-short portfolio (Table~\\ref{tab:alphas}). FM slope: Fama-MacBeth coefficient on the peer return with the "
-             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--13 change the sample, the return, or the test assets (the May 2024 "
+             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--14 change the sample, the return, or the test assets (the May 2024 "
              "row drops the twelve formation months whose network window includes May 2024, when SafeGraph changed its panel and "
-             "file format); the next nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
+             "file format; the retail and restaurant row keeps only firms whose month-$t$ SafeGraph category is a retail-store "
+             "category of NAICS 44--45 other than gasoline stations or a restaurant or bar category of NAICS 722, as focal firms "
+             "and as peers); the next nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
              "peers; the share of $i$'s customers who shop at $j$ instead of the symmetric average; a 6- or 24-month window; a "
              "network estimated once from 2019 card data and held fixed; a network built from card data ending two or three months "
              "before formation instead of one; only the strongest third of each firm's links; or excluding peers that are TNIC-3 "
