@@ -11,7 +11,7 @@ a firm's customer-overlap peers are used to predict its return.
 
 | Data | Source | In this package |
 |---|---|---|
-| Spend Patterns, monthly POI-level card spending and cross-shopping lists, January 2019–May 2026 (266 parquet shards, 86 GB), delivered July 2026 | SafeGraph, through Northeastern University's institutional subscription for the D'Amore-McKim School of Business | no: licensed |
+| Spend Patterns, monthly POI-level card spending and cross-shopping lists, January 2019–May 2026 (266 parquet shards, 86 GB) | SafeGraph, through Northeastern University's institutional subscription for the D'Amore-McKim School of Business | no: licensed |
 | Brand Info, brand → parent company (current snapshot) | SafeGraph | no: licensed |
 | CRSP (CIZ format): `stocknames_v2`, `msf_v2`, `dsf_v2`, `stkdelists`, `ccmxpf_lnkhist` | WRDS | no: licensed |
 | Compustat: `funda`, `fundq`, `company`; customer segments `comp_segments_hist_daily.wrds_seg_customer` | WRDS | no: licensed |
