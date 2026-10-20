@@ -33,8 +33,12 @@ Fn2 = ap.factors(); Fn2.index = Fn2.index - 2      # month t+2 factors for the s
 
 
 def variant_signals(P, src="ovl_var", prefix="CO_"):
-    """peer-return signals from alternative networks (ovl_var for customer overlap, sim_var for RPS)."""
-    sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret"])
+    """peer-return signals from alternative networks (ovl_var for customer overlap, sim_var for RPS), with the same peer
+    returns as the corresponding baseline signal: winsorized sample returns for customer overlap, raw returns for RPS."""
+    if src == "ovl_var":
+        sm = pd.read_parquet(f"{R}/data/derived/panel_final.parquet", columns=["permno", "month", "ret"])
+    else:
+        sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret"])
     rows = []
     for f in sorted(glob.glob(f"{R}/data/derived/{src}/*.parquet")):
         t = pd.Period(os.path.basename(f)[:7], "M")
@@ -104,6 +108,7 @@ def main():
     P = M.load(SIG)
     P = variant_signals(P, "ovl_var", "CO_")
     P = variant_signals(P, "sim_var", "RPS_")
+    P = P.merge(pd.read_parquet(f"{R}/data/derived/co_lag.parquet"), on=["permno", "month"], how="left")   # 44_vintage.py
     sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret", "me", "nyse"])
     f2 = sm[["permno", "month", "ret"]].copy(); f2["month"] = f2.month - 2
     P = P.merge(f2.rename(columns={"ret": "ret_f2"}), on=["permno", "month"], how="left")
@@ -120,6 +125,8 @@ def main():
              ("Excluding formation months in 2020 (returns 2020:02--2021:01)", P[P.month.dt.year != 2020], "sig", "ret_f1"),
              ("First half (formation 2019:07--2022:06)", P[P.month <= pd.Period("2022-06", "M")], "sig", "ret_f1"),
              ("Second half (formation 2022:07--2025:11)", P[P.month > pd.Period("2022-06", "M")], "sig", "ret_f1"),
+             ("Excluding networks estimated across the May 2024 panel change", P[~P.window_spans_2024_05.fillna(False).astype(bool)],
+              "sig", "ret_f1"),
              ("Price $\\geq$ \\$5", P[P.prc >= 5], "sig", "ret_f1"),
              ("Excluding microcaps (NYSE 20th pct.)", P[P.me >= P.nyse20], "sig", "ret_f1"),
              ("Skip a month (return in $t+2$)", P, "sig", "ret_f2"),
@@ -127,6 +134,8 @@ def main():
     for c, lab in [("co_eq", "Overlapping peers equal-weighted"), ("CO_ASYM", "One-directional overlap (share of $i$'s customers)"),
                    ("CO_W6", "6-month network window"), ("CO_W24", "24-month network window"),
                    ("CO_FROZEN", "Frozen 2019 network (formation 2020--2025)"),
+                   ("CO_LAG2", "Network lagged two months (card data $t-13$ to $t-2$)"),
+                   ("CO_LAG3", "Network lagged three months (card data $t-14$ to $t-3$)"),
                    ("co_strong", "Strongest third of each firm's links"), ("co_ntnic", "Excluding TNIC-3 rivals"),
                    ("RPS_pos", "Shared tastes (RPS) instead of overlap"), ("RPS_FROZEN", "Shared tastes, frozen 2019 network"),
                    ("RPS_D_pos", "Shared tastes, location-free channels only")]:
@@ -149,11 +158,13 @@ def main():
            "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}"]
     notes = ("Each row re-estimates the main tests under one change. EW/VW FF6 $\\alpha$: monthly alpha of the quintile "
              "long-short portfolio (Table~\\ref{tab:alphas}). FM slope: Fama-MacBeth coefficient on the peer return with the "
-             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--12 change the sample, the return, or the test assets; "
-             "the next seven rows re-estimate customer overlap with the stated change (equal weights on all overlapping peers; "
-             "the share of $i$'s customers who shop at $j$ instead of the symmetric average; a 6- or 24-month window; a network "
-             "estimated once from 2019 card data and held fixed; only the strongest third of each firm's links; or excluding peers "
-             "that are TNIC-3 rivals); the last three rows replace customer overlap by RPS. Newey-West $t$-statistics "
+             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--13 change the sample, the return, or the test assets (the May 2024 "
+             "row drops the twelve formation months whose network window includes May 2024, when SafeGraph changed its panel and "
+             "file format); the next nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
+             "peers; the share of $i$'s customers who shop at $j$ instead of the symmetric average; a 6- or 24-month window; a "
+             "network estimated once from 2019 card data and held fixed; a network built from card data ending two or three months "
+             "before formation instead of one; only the strongest third of each firm's links; or excluding peers that are TNIC-3 "
+             "rivals); the last three rows replace customer overlap by RPS. Newey-West $t$-statistics "
              "(four lags) in parentheses.")
     open(f"{R}/tables/tab_robust.tex", "w").write(
         ap.latex_table(hdr, rows, "Robustness", "tab:robust", notes, colspec="lccccccc", size="\\scriptsize"))

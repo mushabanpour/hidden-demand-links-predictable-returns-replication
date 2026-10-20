@@ -33,6 +33,18 @@ for v in order:
         else:
             rb.append(""); rt.append("")
     rows += [rb, rt]
+# direct tests of the comparisons in columns (2) and (4): monthly slope differences
+C2 = ap.fama_macbeth(P, "ret_f1", specs[1] + CTL, series=True)
+C4 = ap.fama_macbeth(P, "ret_f1", specs[3] + CTL, series=True)
+diffs = {"local_minus_firm_specific": ap.nw_mean(C2.co_E - C2.co_X)[:2],
+         "strongest_minus_weakest": ap.nw_mean(C4.co_strong - C4.co_weak)[:2]}
+rows.append("\\addlinespace")
+for k, lab_, col in [("local_minus_firm_specific", "Local-market $-$ firm-specific", 2),
+                     ("strongest_minus_weakest", "Strongest $-$ weakest third", 4)]:
+    m, t = diffs[k]
+    rb = [lab_] + [""] * len(specs); rt = [""] * (len(specs) + 1)
+    rb[col] = f"{m:.3f}{ap.stars(t)}"; rt[col] = f"({t:.2f})"
+    rows += [rb, rt]
 rows.append("\\addlinespace")
 rows.append(["Controls"] + ["Yes"] * len(specs))
 rows.append(["Observations"] + [f"{x[2]:,}" for x in res])
@@ -45,7 +57,8 @@ notes = ("Fama-MacBeth regressions of month-$t+1$ returns on month-$t$ peer retu
          "customer-overlap peers by the size of the overlap. Shared-taste returns weight all sample firms by RPS. "
          "All columns use the same firm-months: firms with at least one customer-overlap peer and all controls. When a "
          "firm has no peer in a component or link-strength third, that peer return is set to its monthly cross-sectional mean. "
-         "Newey-West $t$-statistics (four lags) in parentheses.")
+         "The difference rows report the time-series average of the monthly difference between the two slopes in column (2) "
+         "and between the strongest- and weakest-third slopes in column (4). Newey-West $t$-statistics (four lags) in parentheses.")
 open(f"{R}/tables/tab_decomp.tex", "w").write(ap.latex_table([["", *[f"({k})" for k in range(1, len(specs) + 1)]]], rows,
                                                             "Shared customers, shared places, and shared tastes", "tab:decomp",
                                                             notes, size="\\scriptsize"))
@@ -53,7 +66,8 @@ ex = [ap.fama_macbeth(P[P.month.dt.year != 2020], "ret_f1", s + CTL) for s in sp
 exr = [ap.fama_macbeth(P[(P.month + 1).dt.year != 2020], "ret_f1", s + CTL) for s in specs]   # return months in 2020
 json.dump({"specs": specs, "full": [{k: r[k] for k in s} for (r, *_), s in zip(res, specs)],
            "ex2020": [{k: r[k] for k in s} for (r, *_), s in zip(ex, specs)],
-           "ex2020_return": [{k: r[k] for k in s} for (r, *_), s in zip(exr, specs)], "nobs": [x[2] for x in res]},
+           "ex2020_return": [{k: r[k] for k in s} for (r, *_), s in zip(exr, specs)], "nobs": [x[2] for x in res],
+           "differences": diffs},
           open(f"{R}/logs/decomp.json", "w"), default=float, indent=1)
 for (r, *_), (r2, *_), s in zip(res, ex, specs):
     print(s, {k: (round(r[k][0], 3), round(r[k][1], 2)) for k in s}, "ex2020", {k: (round(r2[k][0], 3), round(r2[k][1], 2)) for k in s})

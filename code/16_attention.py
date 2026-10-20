@@ -10,7 +10,7 @@
                   small-cap peers, for all, large, and small focal firms
 """
 import os
-import sys
+import sys, json
 import numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import aplib as ap
@@ -111,14 +111,19 @@ def visibility(P):
             D[c] = D.groupby("month")[c].transform(ap.winsor)
             D[c] = D[c].fillna(D.groupby("month")[c].transform("mean"))
         r, r2, n, T = ap.fama_macbeth(D, "ret_f1", ["v_a", "v_b"] + CTL + ["xind_u"])
-        cols.append((la, lb, r, n))
+        C = ap.fama_macbeth(D, "ret_f1", ["v_a", "v_b"] + CTL + ["xind_u"], series=True)
+        d = ap.nw_mean(C.v_b - C.v_a)[:2]                  # hidden minus visible, monthly slopes
+        cols.append((la, lb, r, n, d))
     hdr = [["", "(1)", "(2)", "(3)"]]
     rows = []
-    for k, (la, lb, r, n) in enumerate(cols):
+    for k, (la, lb, r, n, d) in enumerate(cols):
         for key, lab in [("v_a", la), ("v_b", lb)]:
             rb = [f"Peers: {lab}"] + [""] * 3; rt = [""] * 4
             b, t = r[key]; rb[k + 1] = f"{b:.3f}{ap.stars(t)}"; rt[k + 1] = f"({t:.2f})"
             rows += [rb, rt]
+    rows.append("\\addlinespace")
+    rows.append(["Hidden $-$ visible"] + [f"{c[4][0]:.3f}{ap.stars(c[4][1])}" for c in cols])
+    rows.append([""] + [f"({c[4][1]:.2f})" for c in cols])
     rows.append("\\addlinespace")
     rows.append(["Controls", "Yes", "Yes", "Yes"])
     rows.append(["Observations"] + [f"{c[3]:,}" for c in cols])
@@ -128,9 +133,13 @@ def visibility(P):
              "industry. The sample is firms with at least one customer-overlap peer; when one subset is empty, its return is set "
              "to the monthly cross-sectional mean of that subset return. Column (1) splits peers by whether they share the focal firm's FF48 industry; "
              "column (2) by whether they are TNIC-3 product-market rivals; column (3) by whether at least one IBES analyst covered "
-             "both firms in the previous calendar year. Newey-West $t$-statistics (four lags) in parentheses.")
+             "both firms in the previous calendar year. ``Hidden $-$ visible'' is the time-series average of the monthly difference "
+             "between the slope on the hidden subset (different industry, not a TNIC-3 rival, no shared analyst) and the slope on "
+             "the visible subset. Newey-West $t$-statistics (four lags) in parentheses.")
     open(f"{R}/tables/tab_visibility.tex", "w").write(
         ap.latex_table(hdr, rows, "Visible versus hidden links", "tab:visibility", notes))
+    json.dump({la + " vs " + lb: {"visible": r["v_a"], "hidden": r["v_b"], "hidden_minus_visible": d, "n": n}
+               for la, lb, r, n, d in cols}, open(f"{R}/logs/visibility.json", "w"), default=float, indent=1)
     return cols
 
 
@@ -145,15 +154,19 @@ def bigsmall(P):
     for nm, msk in [("All firms", D["size"].notna()), ("Large firms", D["size"] >= med), ("Small firms", D["size"] < med)]:
         for xs in [["v_big", "v_small"], ["v_big", "v_small"] + CTL]:
             r, r2, n, T = ap.fama_macbeth(D[msk], "ret_f1", xs, min_obs=20)
-            out.append((nm, xs, r, n))
+            C = ap.fama_macbeth(D[msk], "ret_f1", xs, min_obs=20, series=True)
+            out.append((nm, xs, r, n, ap.nw_mean(C.v_small - C.v_big)[:2]))
     hdr = [["", "\\multicolumn{2}{c}{All firms}", "\\multicolumn{2}{c}{Large firms}", "\\multicolumn{2}{c}{Small firms}"],
            "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}", ["", "(1)", "(2)", "(3)", "(4)", "(5)", "(6)"]]
     rows = []
     for key, lab in [("v_big", "Large-cap peers' return"), ("v_small", "Small-cap peers' return")]:
         rb, rt = [lab], [""]
-        for nm, xs, r, n in out:
+        for nm, xs, r, n, d in out:
             b, t = r[key]; rb.append(f"{b:.3f}{ap.stars(t)}"); rt.append(f"({t:.2f})")
         rows += [rb, rt]
+    rows.append("\\addlinespace")
+    rows.append(["Small $-$ large"] + [f"{o[4][0]:.3f}{ap.stars(o[4][1])}" for o in out])
+    rows.append([""] + [f"({o[4][1]:.2f})" for o in out])
     rows.append("\\addlinespace")
     rows.append(["Controls"] + ["", "Yes"] * 3)
     rows.append(["Observations"] + [f"{o[3]:,}" for o in out])
@@ -161,8 +174,9 @@ def bigsmall(P):
              "each sub-portfolio is weighted by shared customers. Fama-MacBeth regressions of month-$t+1$ returns for all firms and "
              "for firms above and below the median size, without controls (columns (1), (3), and (5)) and with the controls of "
              "Table~\\ref{tab:fm}, column (5) (columns (2), (4), and (6)). The sample is firms with at least one customer-overlap "
-             "peer; when one sub-portfolio is empty, its return is set to the monthly cross-sectional mean. Newey-West "
-             "$t$-statistics (four lags) in parentheses.")
+             "peer; when one sub-portfolio is empty, its return is set to the monthly cross-sectional mean. ``Small $-$ large'' is the "
+             "time-series average of the monthly difference between the two slopes. Newey-West $t$-statistics (four lags) in "
+             "parentheses.")
     open(f"{R}/tables/tab_bigsmall.tex", "w").write(
         ap.latex_table(hdr, rows, "Large and small peers as sources of information", "tab:bigsmall", notes))
     return out
@@ -172,5 +186,5 @@ if __name__ == "__main__":
     P = M.load(SIG)
     s = subsamples(P)
     for k, v in s.items(): print(k, round(v[0], 3), round(v[1], 2), v[2])
-    for la, lb, r, n in visibility(P): print(la, r["v_a"], lb, r["v_b"])
-    for nm, xs, r, n in bigsmall(P): print(nm, len(xs), r["v_big"], r["v_small"])
+    for la, lb, r, n, d in visibility(P): print(la, r["v_a"], lb, r["v_b"], "hidden-visible", d)
+    for nm, xs, r, n, d in bigsmall(P): print(nm, len(xs), r["v_big"], r["v_small"], "small-large", d)

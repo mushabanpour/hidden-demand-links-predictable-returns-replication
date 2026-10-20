@@ -1,0 +1,9 @@
+                        count unique      top  ...       50%       75%       max
+permno                14056.0    NaN      NaN  ...   57817.0   84203.0   93423.0
+month                   14056     78  2022-09  ...       NaN       NaN       NaN
+CO_LAG2               13204.0    NaN      NaN  ...  0.005633  0.067108  5.254717
+CO_LAG3               13014.0    NaN      NaN  ...  0.006171  0.068176  5.254717
+window_spans_2024_05    14056      2    False  ...       NaN       NaN       NaN
+
+[5 rows x 11 columns]
+formation months whose window spans 2024-05: ['2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05']

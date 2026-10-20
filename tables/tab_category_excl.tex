@@ -1,0 +1,34 @@
+\begin{table}[!htbp]\centering
+\caption{Category adjustment, exceptional months, and placebo networks}\label{tab:catexcl}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
+\toprule
+ & All months & Excl.\ Jan.\ 2021 & Excl.\ 2020 & Excl.\ both \\
+\midrule
+\multicolumn{5}{l}{\emph{Panel A: Sorts on the industry-adjusted peer return, six-factor alpha (\%)}} \\
+Equal-weighted & 1.37** & 0.60 & 1.80* & 0.64 \\
+ & (2.10) & (1.42) & (1.84) & (1.32) \\
+Value-weighted & 0.46 & 0.19 & 0.79 & 0.41 \\
+ & (1.14) & (0.47) & (1.53) & (0.94) \\
+\addlinespace
+\multicolumn{5}{l}{\emph{Panel B: Placebo networks, peer return}} \\
+Equal-weighted: actual alpha (\%) & 3.01 & 2.01 & 3.09 & 1.56 \\
+\quad placebo mean (\%) & 1.73 & 1.14 & 1.62 & 0.67 \\
+\quad $p$-value & 0.008 & 0.004 & 0.012 & 0.008 \\
+Value-weighted: actual alpha (\%) & 2.08 & 2.05 & 1.71 & 1.63 \\
+\quad placebo mean (\%) & 0.94 & 0.96 & 0.51 & 0.50 \\
+\quad $p$-value & 0.000 & 0.002 & 0.000 & 0.000 \\
+\addlinespace
+\multicolumn{5}{l}{\emph{Panel C: Placebo networks, industry-adjusted peer return}} \\
+Equal-weighted: actual alpha (\%) & 1.37 & 0.60 & 1.80 & 0.64 \\
+\quad placebo mean (\%) & 0.22 & 0.04 & 0.47 & 0.22 \\
+\quad $p$-value & 0.054 & 0.102 & 0.082 & 0.176 \\
+Value-weighted: actual alpha (\%) & 0.46 & 0.19 & 0.79 & 0.41 \\
+\quad placebo mean (\%) & 0.10 & 0.01 & 0.28 & 0.14 \\
+\quad $p$-value & 0.326 & 0.390 & 0.192 & 0.312 \\
+\addlinespace
+Months & 77 & 76 & 65 & 64 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel A: six-factor alphas of the quintile long-short portfolio sorted on the industry-adjusted peer return (equation~\eqref{eq:adj}; Table~\ref{tab:alphas}, Panel B). Panels B and C: each month, firms' rows and columns of the customer-overlap matrix are reassigned at random among firms in the same SafeGraph category (Figure~\ref{fig:perm}); the peer return (Panel B) or the industry-adjusted peer return, re-estimated for each placebo network (Panel C), is recomputed and the quintile long-short portfolio re-formed. Across 500 placebo networks, the table reports the mean six-factor alpha and the share of placebo alphas at least as large as the actual alpha ($p$). Excl.\ 2020 drops the twelve return months of 2020; excl.\ both also drops January 2021. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}

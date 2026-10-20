@@ -1,27 +1,35 @@
-00:03:57 start 13_main_tables.py co
-00:04:03 done 13_main_tables.py co
-00:04:03 start 30_eventtime_cf.py
-00:04:08 done 30_eventtime_cf.py
-00:04:08 start 32_mechanism_extra.py
-00:04:28 done 32_mechanism_extra.py
-00:04:28 start 15_cashflow_news.py co
-00:04:33 done 15_cashflow_news.py co
-00:04:33 start 16_attention.py co
-00:04:40 done 16_attention.py co
-00:04:40 start 17_robustness.py co
-00:05:10 done 17_robustness.py co
-00:05:10 start 18_descriptives.py
-00:05:38 done 18_descriptives.py
-00:05:38 start 28_fig_dist.py
-00:05:39 done 28_fig_dist.py
-00:05:39 start 29_decomp_table.py
-00:05:44 done 29_decomp_table.py
-00:05:44 start 14_comovement.py
-00:05:52 done 14_comovement.py
-00:05:52 start 27_intramonth.py
-00:05:55 done 27_intramonth.py
-00:05:55 start 40_text_numbers.py
-00:05:59 done 40_text_numbers.py
-00:05:59 start 41_by_year.py
-00:06:02 done 41_by_year.py
+13:46:36 start 13_main_tables.py co
+13:46:42 done 13_main_tables.py co
+13:46:42 start 30_eventtime_cf.py
+13:46:48 done 30_eventtime_cf.py
+13:46:48 start 32_mechanism_extra.py
+13:47:08 done 32_mechanism_extra.py
+13:47:08 start 15_cashflow_news.py co
+13:47:13 done 15_cashflow_news.py co
+13:47:13 start 16_attention.py co
+13:47:21 done 16_attention.py co
+13:47:21 start 44_vintage.py
+13:47:23 done 44_vintage.py
+13:47:23 start 17_robustness.py co
+13:47:59 done 17_robustness.py co
+13:47:59 start 18_descriptives.py
+13:48:27 done 18_descriptives.py
+13:48:27 start 28_fig_dist.py
+13:48:29 done 28_fig_dist.py
+13:48:29 start 29_decomp_table.py
+13:48:33 done 29_decomp_table.py
+13:48:33 start 14_comovement.py
+13:48:41 done 14_comovement.py
+13:48:41 start 27_intramonth.py
+13:48:44 done 27_intramonth.py
+13:48:44 start 40_text_numbers.py
+13:48:48 done 40_text_numbers.py
+13:48:48 start 41_by_year.py
+13:48:51 done 41_by_year.py
+13:48:51 start 42_implementability.py
+13:48:54 done 42_implementability.py
+13:48:54 start 43_category_exclusions.py
+13:49:37 done 43_category_exclusions.py
+13:49:37 start 46_overlap_validation.py
+13:49:51 done 46_overlap_validation.py
 ALLDONE

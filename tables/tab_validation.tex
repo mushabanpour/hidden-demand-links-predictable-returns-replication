@@ -1,0 +1,30 @@
+\begin{table}[!htbp]\centering
+\caption{Validation of the customer-overlap measure}\label{tab:validation}
+\scriptsize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{7.2cm}ccccccc}
+\toprule
+\multicolumn{8}{l}{\emph{Panel A: How often the issues arise (averages over formation months)}} \\
+Customers at stores whose same-category list is full (20 brands), \% & \multicolumn{7}{c}{56.0} \\
+Smallest listed share at stores with full lists (censoring threshold), \% & \multicolumn{7}{c}{4.6} \\
+Linked pairs in which a firm has more than one linked brand, \% & \multicolumn{7}{c}{47.9} \\
+Median ratio to baseline overlap, linked pairs: largest brand & \multicolumn{7}{c}{1.00} \\
+Median ratio to baseline overlap, linked pairs: capped sum & \multicolumn{7}{c}{1.00} \\
+Median ratio to baseline overlap, linked pairs: censoring bound & \multicolumn{7}{c}{2.97} \\
+Correlation with baseline overlap, linked pairs: largest brand & \multicolumn{7}{c}{0.989} \\
+Correlation with baseline overlap, linked pairs: capped sum & \multicolumn{7}{c}{0.999} \\
+Correlation with baseline overlap, linked pairs: equal store weights & \multicolumn{7}{c}{0.997} \\
+Correlation with baseline overlap, linked pairs: censoring bound & \multicolumn{7}{c}{0.827} \\
+\addlinespace
+\multicolumn{8}{l}{\emph{Panel B: Tests with each version of the measure}} \\
+ & \multicolumn{2}{c}{EW FF6 $\alpha$ (\%)} & \multicolumn{2}{c}{VW FF6 $\alpha$ (\%)} & \multicolumn{2}{c}{FM slope} & Months \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Baseline (rebuilt from store-level detail) & 3.01*** & (3.09) & 2.08*** & (3.32) & 0.143** & (2.17) & 77 \\
+Peer brands combined by the largest share & 2.73*** & (2.82) & 1.85*** & (2.99) & 0.117* & (1.91) & 77 \\
+Peer brands combined by the capped sum & 2.92*** & (3.04) & 1.99*** & (3.19) & 0.145** & (2.19) & 77 \\
+Every store-month weighted equally & 2.90*** & (2.96) & 2.03*** & (3.44) & 0.148** & (2.12) & 77 \\
+One-month window (card data for $t-1$) & 2.75*** & (2.90) & 1.67*** & (2.84) & 0.075 & (1.34) & 77 \\
+Censoring upper bound & 2.61** & (2.45) & 1.86*** & (2.78) & 0.162** & (2.08) & 77 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel A: shares computed from the same-category cross-shopping list of every store (POI) of the sample firms. The censoring threshold is the smallest share listed at stores whose list holds the maximum of twenty brands; a brand that is not listed there has a share below it. Ratios and correlations are medians and averages over linked pairs (positive baseline overlap). Panel B: the baseline rebuilt from store-level detail (its monthly correlation with the network of Section~\ref{sec:co} averages 1.0000) and five variants: a peer firm's brands combined by the largest brand-level share (as if the brands' clienteles coincided) or by the sum capped at one (as if they were disjoint) instead of $1-\prod_b(1-A_{ib})$; every store-month weighted equally instead of by its customers; a window of one month instead of twelve, so that no customer is counted in more than one month; and an upper bound for censoring that sets a peer brand's share at every full list that omits it to that list's smallest share. Tests as in Table~\ref{tab:robust}. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\end{table}
