@@ -74,7 +74,7 @@ minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 | Table 4 | `14_comovement.py` | `tables/tab_comove.tex` |
 | Tables 5, 6, 8; Figure 2 | `13_main_tables.py co` | `tables/tab_sorts.tex`, `tab_alphas.tex`, `tab_fm.tex`; `figures/fig_cumret.pdf` |
 | Table 7; Figure 3 | `30_eventtime_cf.py` | `tables/tab_eventtime.tex`; `figures/fig_eventtime.pdf` |
-| Table 9 | `29_decomp_table.py` | `tables/tab_decomp.tex` |
+| Table 9 | `54_geo_category.py`, then `29_decomp_table.py` | `tables/tab_decomp.tex`; `logs/geo_category.json` |
 | Table 10 | `15_cashflow_news.py co` | `tables/tab_cfnews.tex` |
 | Table 11 | `55_card_power.py` | `tables/tab_cardpower.tex`; `logs/card_power.json` |
 | Tables 12, 13 | `59_fcap_universe.py` (after step 11b), then `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex`; `logs/fcap_universe.json` |
@@ -85,7 +85,7 @@ minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 | Appendix Table 19 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
 | Figure 1 | `28_fig_dist.py` | `figures/fig_distributions.pdf` |
 | Appendix Table 20 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
-| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `55`, `56`, `59` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json` |
+| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json` |
 
 `code/aplib.py` holds the shared estimators (portfolio sorts, factor regressions, Fama-MacBeth with Newey-West
 standard errors, LaTeX tables) and `code/figstyle.py` the figure style.
