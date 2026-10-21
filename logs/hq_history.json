@@ -1,0 +1,23 @@
+{
+ "firms_in_sample": 252,
+ "firms_with_10k": 250,
+ "firms_with_2plus_10k": 247,
+ "tenk_filings": 1727,
+ "share_state_changed": 0.04048582995951417,
+ "share_city_changed": 0.11740890688259109,
+ "share_cbsa_changed": 0.04048582995951417,
+ "share_current_cbsa_differs_from_first_10k": 0.05128205128205128,
+ "n_compared_current": 234,
+ "movers_cbsa": [
+  "002991",
+  "004611",
+  "009155",
+  "011060",
+  "027938",
+  "033718",
+  "039483",
+  "164755",
+  "178806",
+  "188856"
+ ]
+}

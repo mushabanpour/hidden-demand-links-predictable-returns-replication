@@ -57,6 +57,7 @@ Run the scripts in `code/` in this order; each stage skips months it has already
 | 10b | `python3 code/45_overlap_validation_extract.py all` | a second pass over the raw shards that keeps store-level detail of the same-category lists (customer- and store-weighted sums, list lengths, censoring thresholds), for the validation of the overlap measure (about 15 minutes) |
 | 11 | `python3 code/11_fundamentals.py`, `python3 code/31_common_ownership.py` | card-spend growth and earnings events; Antón-Polk common ownership among sample firms |
 | 11b | `python3 code/58_fcap_universe_pull.py` | 13F common ownership between each sample firm and every other stock, computed on the WRDS server (about an hour) |
+| 11c | `SEC_USER_AGENT="<name> <email>" python3 code/60_hq_history.py` | business addresses in the headers of the sample firms' 10-K filings on EDGAR (the SEC asks for a contact in the User-Agent), for the count of headquarters moves in Appendix A |
 
 Sample rules: CRSP common stocks (share type NS, security type EQTY, sub-type COM) on NYSE, NYSE American or
 Nasdaq; trailing-year panel card spending at least 0.1% of the latest annual sales; price at least $1; at least
@@ -85,7 +86,7 @@ minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 | Appendix Table 19 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
 | Figure 1 | `28_fig_dist.py` | `figures/fig_distributions.pdf` |
 | Appendix Table 20 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
-| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json` |
+| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59`, `60` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json`, `hq_history.json` |
 
 `code/aplib.py` holds the shared estimators (portfolio sorts, factor regressions, Fama-MacBeth with Newey-West
 standard errors, LaTeX tables) and `code/figstyle.py` the figure style.
