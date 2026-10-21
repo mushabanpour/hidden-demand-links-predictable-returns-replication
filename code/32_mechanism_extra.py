@@ -76,15 +76,19 @@ def ownership(P):
             m = pf.feols(f"{y} ~ {rhs} + same_ind + dsize + io_sum | mid", data=X, vcov={"CRV1": "i + j"})
             pr.append((y, rhs, m))
     Pn = P.merge(pd.concat(sig), on=["permno", "month"], how="left")
-    for c in ["fcap_ret", "fcap_ret_cat", "co_hiown", "co_loown", "co_hiown_a", "co_loown_a"]:
+    # common ownership with every CRSP common stock, excluding the ten largest holders (58/59_fcap_universe)
+    U = pd.read_parquet(f"{R}/data/derived/fcap_universe_signals.parquet", columns=["permno", "month", "ucapx_ret"])
+    Pn = Pn.merge(U, on=["permno", "month"], how="left")
+    for c in ["fcap_ret", "fcap_ret_cat", "co_hiown", "co_loown", "co_hiown_a", "co_loown_a", "ucapx_ret"]:
         Pn[c] = Pn.groupby("month")[c].transform(lambda s: ap.winsor(s.replace([np.inf, -np.inf], np.nan)))
     D = Pn[Pn.sig.notna()].copy()                        # firms with at least one customer-overlap peer
-    for c in ["co_hiown", "co_loown", "co_hiown_a", "co_loown_a", "fcap_ret", "fcap_ret_cat"]:
+    for c in ["co_hiown", "co_loown", "co_hiown_a", "co_loown_a", "fcap_ret", "fcap_ret_cat", "ucapx_ret"]:
         D[c] = D[c].fillna(D.groupby("month")[c].transform("mean"))   # empty subset / no 13F link -> monthly mean
     fm = {}
     fm["base"] = ap.fama_macbeth(D, "ret_f1", ["sig"] + CTL)
     fm["ctl_fcap"] = ap.fama_macbeth(D, "ret_f1", ["sig", "fcap_ret", "fcap_ret_cat"] + CTL)
     fm["split"] = ap.fama_macbeth(D, "ret_f1", ["co_hiown", "co_loown"] + CTL)
+    fm["ctl_ucap"] = ap.fama_macbeth(D, "ret_f1", ["sig", "ucapx_ret"] + CTL)
     return pr, fm, X, Pn
 
 
@@ -165,11 +169,8 @@ def tables(res, pr, fm, fits):
     C = ap.fama_macbeth(D, "ret_f1", ["co_hiown", "co_loown"] + CTL, series=True)
     dm, dt, _ = ap.nw_mean(C.co_hiown - C.co_loown)
     Ca = ap.fama_macbeth(D, "ret_f1", ["co_hiown_a", "co_loown_a"] + CTL, series=True)
-    ex20 = C[(C.index + 1).year != 2020]                  # excluding return months in 2020
     diffs = {"excl_top10": ap.nw_mean(C.co_hiown - C.co_loown)[:2],
-             "all_institutions": ap.nw_mean(Ca.co_hiown_a - Ca.co_loown_a)[:2],
-             "excl_top10_ex2020": ap.nw_mean(ex20.co_hiown - ex20.co_loown)[:2],
-             "split_slopes_ex2020": {v: ap.nw_mean(ex20[v])[:2] for v in ["co_hiown", "co_loown"]}}
+             "all_institutions": ap.nw_mean(Ca.co_hiown_a - Ca.co_loown_a)[:2]}
     json.dump(diffs, open(f"{R}/logs/mech_ownership_diff.json", "w"), default=float, indent=1)
     lab = {"fcap": "Common ownership, all 13F institutions", "fcap_x": "Common ownership, excluding ten largest holders"}
     rows = ["\\multicolumn{5}{l}{\\emph{Panel A: Common ownership of same-category pairs}} \\\\",
@@ -190,22 +191,23 @@ def tables(res, pr, fm, fits):
     rows.append(["Pair-months"] + [f"{get[('fcap', 'co_z')][2]:,}"] * 4)
     rows.append("\\addlinespace")
     rows.append("\\multicolumn{5}{l}{\\emph{Panel B: Fama-MacBeth regressions of month-$t+1$ returns}} \\\\")
-    rows.append(["", "(1)", "(2)", "(3)", ""]); rows.append("\\midrule")
+    rows.append(["", "(1)", "(2)", "(3)", "(4)"]); rows.append("\\midrule")
     f = res["fm"]
     def cell(k, v):
         if v not in f[k]:
             return "", ""
         b, t = f[k][v]; return f"{b:.3f}{ap.stars(t)}", f"({t:.2f})"
-    for v, l in [("sig", "Customer-overlap peer return"), ("fcap_ret", "Common-ownership peer return (all firms)"),
+    for v, l in [("sig", "Customer-overlap peer return"), ("fcap_ret", "Common-ownership peer return (sample firms)"),
                  ("fcap_ret_cat", "Common-ownership peer return (same category)"),
+                 ("ucapx_ret", "Common-ownership peer return (all stocks)"),
                  ("co_hiown", "Overlap peers with high common ownership"), ("co_loown", "Overlap peers with low common ownership")]:
-        cs = [cell(k, v) for k in ["base", "ctl_fcap", "split"]]
-        rows += [[l] + [c[0] for c in cs] + [""], [""] + [c[1] for c in cs] + [""]]
+        cs = [cell(k, v) for k in ["base", "ctl_fcap", "split", "ctl_ucap"]]
+        rows += [[l] + [c[0] for c in cs], [""] + [c[1] for c in cs]]
     rows.append(["High $-$ low", "", "", f"{dm:.3f}{ap.stars(dt)}", ""])
     rows.append(["", "", "", f"({dt:.2f})", ""])
     rows.append("\\addlinespace")
-    rows.append(["Controls"] + ["Yes"] * 3 + [""])
-    rows.append(["Observations"] + [f"{res['fm_n'][k]:,}" for k in ["base", "ctl_fcap", "split"]] + [""])
+    rows.append(["Controls"] + ["Yes"] * 4)
+    rows.append(["Observations"] + [f"{res['fm_n'][k]:,}" for k in ["base", "ctl_fcap", "split", "ctl_ucap"]])
     notes = ("Panel A: pair-month regressions for pairs of sample firms in the same SafeGraph category of the \\citet{AntonPolk2014} "
              "measure of common ownership---the value of both firms' shares held by 13F institutions that hold both, divided by the "
              "two firms' combined market capitalization---from the latest 13F quarter available at the end of month $t$, on "
@@ -213,7 +215,8 @@ def tables(res, pr, fm, fits):
              "institutions with the largest holdings in the sample firms. Controls: same FF48 industry, the absolute difference in "
              "log size, and the sum of the two firms' institutional ownership; standard errors clustered by both firms. Panel B: "
              "Fama-MacBeth regressions with the controls of Table~\\ref{tab:fm}, column (5). The common-ownership peer return weights "
-             "peers by common ownership (excluding the ten largest holders). The sample is firms with at least one customer-overlap "
+             "peers by common ownership (excluding the ten largest holders): other sample firms in column (2), and every CRSP common "
+             "stock held by at least one of the firm's 13F holders in column (4) \\citep{AntonPolk2014,Ying2024}. The sample is firms with at least one customer-overlap "
              "peer; a peer return that is undefined for a firm (no commonly owned peer, or an empty high or low subset) is set to its "
              "monthly cross-sectional mean. Column (3) splits each firm's overlap peers at the monthly "
              "median of common ownership among overlap-linked pairs; ``High $-$ low'' is the average monthly difference of the two "

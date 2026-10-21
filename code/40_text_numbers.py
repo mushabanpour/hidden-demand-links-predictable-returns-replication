@@ -1,6 +1,6 @@
 """
 40_text_numbers.py -- numbers quoted in the text that are not table cells: data coverage,
-local-market counts, overlap-network statistics, RPS persistence, the January 2021 episode.
+local-market counts, overlap-network statistics, RPS persistence, the sign of the long-short return.
 (Other in-text numbers come from logs/decomp.json, logs/intramonth.json, logs/permutation.txt,
 logs/mech_ownership_diff.json, logs/main_results_co.json, and logs/robust_raw.json.)
 Output: logs/text_numbers.json
@@ -58,17 +58,9 @@ out["overlap"] = {"pairs_per_month": S.n_pairs.mean(), "linked_per_month": S.n_l
 rps, store = import_module("18_descriptives").persistence()
 out["persistence"] = {"RPS": rps, "STORE": store}
 
-# D. the January 2021 episode and the sign of the long-short return
+# D. the sign of the long-short return
 ew, vw, n = ap.sort_returns(P, "sig", 5)
-jan = pd.Period("2020-12", "M")                       # formation month of the January 2021 return
-nm = pd.read_parquet(f"{R}/data/raw/crsp_stocknames_v2.parquet").sort_values("nameenddt").groupby("permno").tail(1)
-tic = dict(zip(nm.permno, nm.ticker))
-d = P[P.month == jan].copy(); d["tic"] = d.permno.map(tic)
-d["q"] = pd.qcut(d.sig.rank(method="first"), 5, labels=False) + 1
-out["meme"] = {"ew_ls_jan2021": ew.LS[jan], "vw_ls_jan2021": vw.LS[jan], "ew_ls_mean": ew.LS.mean(),
-               "ew_ls_mean_ex_jan2021": ew.LS.drop(jan).mean(), "ew_pos_share": (ew.LS > 0).mean(), "vw_pos_share": (vw.LS > 0).mean(),
-               "stocks": {k: {"ret_jan2021": float(d.loc[d.tic == k, "ret_f1"].iloc[0]), "quintile": int(d.loc[d.tic == k, "q"].iloc[0])}
-                          for k in ["GME", "AMC"] if (d.tic == k).any()}}
+out["ls_sign"] = {"ew_pos_share": (ew.LS > 0).mean(), "vw_pos_share": (vw.LS > 0).mean()}
 out["quintiles"] = {w: [ap.nw_mean(x[q])[0] * 100 for q in range(1, 6)] for w, x in [("ew", ew), ("vw", vw)]}
 
 json.dump(out, open(f"{R}/logs/text_numbers.json", "w"), default=float, indent=1)

@@ -7,8 +7,8 @@ For k = -12..24 we compute
   * the focal long-short return: Q5 minus Q1 return of the focal firms in month t+k
   * the sorting-variable long-short return: Q5 minus Q1 of the firms' peer-portfolio
     return in month t+k, with the overlap network and peer set held fixed at t
-and cumulate both from k = -12. Panels: equal-weighted, value-weighted (month-t market
-cap), and equal-weighted excluding calendar month January 2021 (GameStop/AMC).
+and cumulate both from k = -12. Panels: equal-weighted and value-weighted (month-t market
+cap).
 Also writes a table of cumulative returns over event windows with Newey-West t-stats.
 """
 import os
@@ -22,7 +22,6 @@ from importlib import import_module
 M = import_module("13_main_tables")
 R = ap.R
 K = list(range(-12, 25))
-JAN21 = pd.Period("2021-01", "M")
 import figstyle as fs
 
 
@@ -55,10 +54,8 @@ def build():
     return pd.concat(rows, ignore_index=True)
 
 
-def ls_series(E, col, vw, drop_jan21):
+def ls_series(E, col, vw):
     D = E.dropna(subset=[col])
-    if drop_jan21:
-        D = D[D.cal != JAN21]
     if vw:
         g = D.assign(wr=D[col] * D.me).groupby(["t", "k", "q"]).agg(wr=("wr", "sum"), w=("me", "sum"))
         r = (g.wr / g.w).unstack("q")
@@ -76,13 +73,12 @@ def window(L, a, b):
 
 def main():
     E = build()
-    specs = [("ew", False, False, "A. Equal-weighted"), ("vw", True, False, "B. Value-weighted"),
-             ("ewx", False, True, "C. Equal-weighted, excluding January 2021")]
+    specs = [("ew", False, "A. Equal-weighted"), ("vw", True, "B. Value-weighted")]
     res = {}
     fs.apply()
-    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.3), sharey=True)
-    for (key, vw, dj, title), ax in zip(specs, axes):
-        L = ls_series(E, "ret", vw, dj); S = ls_series(E, "pret", vw, dj)
+    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.3), sharey=True)
+    for (key, vw, title), ax in zip(specs, axes):
+        L = ls_series(E, "ret", vw); S = ls_series(E, "pret", vw)
         res[key] = (L, S)
         car = L.mean().cumsum() * 100; scar = S.mean().cumsum() * 100
         fs.zero_line(ax)
@@ -99,7 +95,7 @@ def main():
             (13, 24, "$[13,24]$"), (1, 12, "$[1,12]$"), (1, 24, "$[1,24]$")]
     hdr = [["", *[w[2] for w in wins]]]
     rows, raw = [], {}
-    for key, lab in [("ew", "Equal-weighted"), ("vw", "Value-weighted"), ("ewx", "Equal-weighted, excluding January 2021")]:
+    for key, lab in [("ew", "Equal-weighted"), ("vw", "Value-weighted")]:
         L, S = res[key]
         rows.append(f"\\multicolumn{{9}}{{l}}{{\\emph{{{lab}}}}} \\\\")
         for nm, X in [("Long-short (focal firms)", L), ("Sorting variable (peers)", S)]:
@@ -110,7 +106,7 @@ def main():
                 raw[(key, nm[:4], a, b)] = (m, t, n)
             rows += [rb, rt]
         rows.append(["\\quad Formation months"] + [str(window(L, a, b)[2]) for a, b, _ in wins])
-        if key != "ewx":
+        if key != "vw":
             rows.append("\\addlinespace")
     m0, t0, _ = window(res["ew"][1], 0, 0)
     notes = ("At the end of each month $t$ firms are sorted into quintiles on the month-$t$ customer-overlap peer return. "
@@ -118,8 +114,7 @@ def main():
              "long-short portfolio (top minus bottom quintile) and of the same difference in the firms' overlap-peer portfolios, "
              "whose composition and weights are fixed at formation (the sorting variable); $k=0$ is the signal month and "
              "holding begins at $k=1$. Each window "
-             "uses the formation months for which all of its months are observed. In the last panel, calendar month January "
-             "2021 is excluded wherever it falls. Newey-West $t$-statistics, with lags equal to the window length (at least four), "
+             "uses the formation months for which all of its months are observed. Newey-West $t$-statistics, with lags equal to the window length (at least four), "
              "in parentheses.")
     open(f"{R}/tables/tab_eventtime.tex", "w").write(
         ap.latex_table(hdr, rows, "Event-time returns of the customer-overlap long-short portfolio", "tab:eventtime", notes,

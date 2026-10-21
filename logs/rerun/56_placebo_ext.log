@@ -1,0 +1,3 @@
+category 36s {'raw_ew': (1.73, 0.008), 'raw_vw': (0.94, 0.0), 'raw_vwc': (0.69, 0.0), 'adj_ew': (0.22, 0.054), 'adj_vw': (0.1, 0.326), 'adj_vwc': (0.21, 0.14)}
+category_size 24s {'raw_ew': (2.24, 0.026), 'raw_vw': (1.2, 0.0), 'raw_vwc': (0.96, 0.026)}
+persistent 58s {'raw_ew': (1.69, 0.0), 'raw_vw': (0.94, 0.002), 'raw_vwc': (0.69, 0.01)}

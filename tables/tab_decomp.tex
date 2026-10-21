@@ -1,42 +1,38 @@
 \begin{table}[!htbp]\centering
 \caption{Shared customers, shared places, and shared tastes}\label{tab:decomp}
 \scriptsize
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccccc}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc}
 \toprule
- & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
 \midrule
-Customer overlap (CO) & 0.143** &  & 0.134** &  & 0.137** &  &  &  \\
- & (2.17) &  & (2.01) &  & (2.11) &  &  &  \\
-CO: local-market component &  & 0.237*** &  &  &  &  &  &  \\
- &  & (2.62) &  &  &  &  &  &  \\
-CO: firm-specific (excess) component &  & -0.062** &  &  &  &  &  &  \\
- &  & (-2.31) &  &  &  &  &  &  \\
-Same-category store-footprint peers &  &  & 0.312 &  &  &  &  &  \\
- &  &  & (0.71) &  &  &  &  &  \\
-Same-category customer-home peers &  &  & -0.446 &  &  &  &  &  \\
- &  &  & (-0.70) &  &  &  &  &  \\
-CO: strongest third of links &  &  &  & 0.122** &  &  &  &  \\
- &  &  &  & (2.27) &  &  &  &  \\
-CO: middle third &  &  &  & 0.088* &  &  &  &  \\
- &  &  &  & (1.80) &  &  &  &  \\
-CO: weakest third &  &  &  & 0.036 &  &  &  &  \\
- &  &  &  & (1.31) &  &  &  &  \\
-Shared tastes (RPS) &  &  &  &  & 0.241 & 0.243 &  &  \\
- &  &  &  &  & (1.53) & (1.47) &  &  \\
-Customer homes (all firms) &  &  &  &  & -1.605 &  &  &  \\
- &  &  &  &  & (-1.63) &  &  &  \\
-Shared tastes, location-free channels &  &  &  &  &  &  & 0.171 &  \\
- &  &  &  &  &  &  & (1.44) &  \\
-Shared tastes, orthogonal to income and geography &  &  &  &  &  &  &  & 0.326* \\
- &  &  &  &  &  &  &  & (1.70) \\
+Customer overlap (CO) & 0.143** &  & 0.134** &  & 0.137** &  \\
+ & (2.17) &  & (2.01) &  & (2.11) &  \\
+CO: local-market component &  & 0.237*** &  &  &  &  \\
+ &  & (2.62) &  &  &  &  \\
+CO: firm-specific (excess) component &  & -0.062** &  &  &  &  \\
+ &  & (-2.31) &  &  &  &  \\
+Same-category store-footprint peers &  &  & 0.312 &  &  &  \\
+ &  &  & (0.71) &  &  &  \\
+Same-category customer-home peers &  &  & -0.446 &  &  &  \\
+ &  &  & (-0.70) &  &  &  \\
+CO: strongest third of links &  &  &  & 0.122** &  &  \\
+ &  &  &  & (2.27) &  &  \\
+CO: middle third &  &  &  & 0.088* &  &  \\
+ &  &  &  & (1.80) &  &  \\
+CO: weakest third &  &  &  & 0.036 &  &  \\
+ &  &  &  & (1.31) &  &  \\
+Shared tastes (RPS) &  &  &  &  & 0.241 & 0.243 \\
+ &  &  &  &  & (1.53) & (1.47) \\
+Customer homes (all firms) &  &  &  &  & -1.605 &  \\
+ &  &  &  &  & (-1.63) &  \\
 \addlinespace
-Local-market $-$ firm-specific &  & 0.299*** &  &  &  &  &  &  \\
- &  & (2.73) &  &  &  &  &  &  \\
-Strongest $-$ weakest third &  &  &  & 0.086 &  &  &  &  \\
- &  &  &  & (1.21) &  &  &  &  \\
+Local-market $-$ firm-specific &  & 0.299*** &  &  &  &  \\
+ &  & (2.73) &  &  &  &  \\
+Strongest $-$ weakest third &  &  &  & 0.086 &  &  \\
+ &  &  &  & (1.21) &  &  \\
 \addlinespace
-Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
-Observations & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 \\
+Controls & Yes & Yes & Yes & Yes & Yes & Yes \\
+Observations & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 \\
 \bottomrule
 \end{tabular*}
 \par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Fama-MacBeth regressions of month-$t+1$ returns on month-$t$ peer returns built from alternative networks, with the controls of Table~\ref{tab:fm}, column (5). The local-market component weights same-category peers by the share of the focal firm's customers that would also shop at the peer if they behaved like other same-category shoppers in the focal firm's local markets (counties); the firm-specific component weights by the excess of actual over predicted overlap (positive part). Same-category store-footprint (customer-home) peers weight same-category firms by the cosine similarity of store counts across counties (customer counts across home cities). Link-strength terciles split each firm's customer-overlap peers by the size of the overlap. Shared-taste returns weight all sample firms by RPS. All columns use the same firm-months: firms with at least one customer-overlap peer and all controls. When a firm has no peer in a component or link-strength third, that peer return is set to its monthly cross-sectional mean. The difference rows report the time-series average of the monthly difference between the two slopes in column (2) and between the strongest- and weakest-third slopes in column (4). Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}

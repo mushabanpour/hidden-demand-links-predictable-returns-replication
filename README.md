@@ -55,7 +55,8 @@ Run the scripts in `code/` in this order; each stage skips months it has already
 | 9 | `python3 code/07_characteristics.py`, `python3 code/08_control_peers.py`, `python3 code/08b_customer_peers.py` | stock panel; TNIC-3, headquarters-CBSA, shared-analyst, and principal-customer peer returns |
 | 10 | `python3 code/09_panel.py`, `python3 code/20_overlap_eval.py`, `python3 code/23_samecat_decomp.py`, `python3 code/25_co_panel.py` | the analysis panel `data/derived/panel_final.parquet`. `20` assigns each firm its real-time category (its most frequent monthly category over t−12 to t−1) |
 | 10b | `python3 code/45_overlap_validation_extract.py all` | a second pass over the raw shards that keeps store-level detail of the same-category lists (customer- and store-weighted sums, list lengths, censoring thresholds), for the validation of the overlap measure (about 15 minutes) |
-| 11 | `python3 code/11_fundamentals.py`, `python3 code/31_common_ownership.py` | card-spend growth and earnings events; Antón-Polk common ownership |
+| 11 | `python3 code/11_fundamentals.py`, `python3 code/31_common_ownership.py` | card-spend growth and earnings events; Antón-Polk common ownership among sample firms |
+| 11b | `python3 code/58_fcap_universe_pull.py` | 13F common ownership between each sample firm and every other stock, computed on the WRDS server (about an hour) |
 
 Sample rules: CRSP common stocks (share type NS, security type EQTY, sub-type COM) on NYSE, NYSE American or
 Nasdaq; trailing-year panel card spending at least 0.1% of the latest annual sales; price at least $1; at least
@@ -64,8 +65,8 @@ November 2025; returns August 2019 to December 2025 (77 months).
 
 ## Running
 
-`bash code/run_audit_rerun.sh` runs every script that writes a table, figure or in-text number (about five
-minutes on a laptop; the placebo networks use seed 7).
+`bash code/run_audit_rerun.sh` runs every script that writes a table, figure or in-text number (about six
+minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 
 | Article | Script | Output |
 |---|---|---|
@@ -75,20 +76,19 @@ minutes on a laptop; the placebo networks use seed 7).
 | Table 7; Figure 3 | `30_eventtime_cf.py` | `tables/tab_eventtime.tex`; `figures/fig_eventtime.pdf` |
 | Table 9 | `29_decomp_table.py` | `tables/tab_decomp.tex` |
 | Table 10 | `15_cashflow_news.py co` | `tables/tab_cfnews.tex` |
-| Tables 11, 12 | `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex` |
-| Tables 13–15 | `16_attention.py co` | `tables/tab_subsamples.tex`, `tab_visibility.tex`, `tab_bigsmall.tex` |
-| Table 16; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
-| Table 17 | `41_by_year.py` | `tables/tab_byyear.tex`; `logs/byyear.json` |
-| Table 18 | `43_category_exclusions.py` | `tables/tab_category_excl.tex`; `logs/category_excl.json` |
-| Table 19 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |
-| Appendix Table 21 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
+| Table 11 | `55_card_power.py` | `tables/tab_cardpower.tex`; `logs/card_power.json` |
+| Tables 12, 13 | `59_fcap_universe.py` (after step 11b), then `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex`; `logs/fcap_universe.json` |
+| Table 14 | `16_attention.py co` | `tables/tab_visibility.tex`; `logs/visibility.json` |
+| Table 15; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
+| Table 16 | `56_placebo_ext.py` | `tables/tab_placebo.tex`; `logs/placebo_ext.json` |
+| Table 17 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |
+| Appendix Table 19 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
 | Figure 1 | `28_fig_dist.py` | `figures/fig_distributions.pdf` |
-| Appendix Table 22 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
-| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `41`, `42`, `43`, `46` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `mech_extra.json`, `mech_ownership_diff.json`, `byyear.json`, `costs.json`, `category_excl.json`, `validation.json` |
+| Appendix Table 20 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
+| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `55`, `56`, `59` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json` |
 
 `code/aplib.py` holds the shared estimators (portfolio sorts, factor regressions, Fama-MacBeth with Newey-West
-standard errors, LaTeX tables) and `code/figstyle.py` the figure style. `10_explore.py`, `21_rps_diagnostics.py`,
-`22_weekly.py` and `24_quick_robust.py` are exploratory and are not used by the article.
+standard errors, LaTeX tables) and `code/figstyle.py` the figure style.
 
 ## Logs
 

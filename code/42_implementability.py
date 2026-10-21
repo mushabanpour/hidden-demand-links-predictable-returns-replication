@@ -19,7 +19,6 @@ from importlib import import_module
 M = import_module("13_main_tables")
 R = ap.R
 COSTS = [0.0010, 0.0025, 0.0050]          # one-way cost per dollar traded: 10, 25, 50 basis points
-JAN21 = pd.Period("2020-12", "M")          # formation month of the January 2021 return
 
 
 def legs(P, nq=5):
@@ -71,8 +70,6 @@ def main():
         dd = d.assign(me=np.minimum(d.me, d.nyse80)) if w == "vwc" else d
         L = leg_stats(dd[dd.q == nq], "ew" if w == "ew" else "vw"); S = leg_stats(dd[dd.q == 1], "ew" if w == "ew" else "vw")
         out[w] = summarize(L, S, Fn, w)
-        if w == "ew":
-            out["ew_x"] = summarize(L, S, Fn, "ew_x", drop=[JAN21])
     # the largest names in the value-weighted legs (average weight over formation months)
     nm = pd.read_parquet(f"{R}/data/raw/crsp_stocknames_v2.parquet").sort_values("nameenddt").groupby("permno").tail(1).set_index("permno").ticker
     w_ = d.assign(w=d.me / d.groupby(["month", "q"]).me.transform("sum"))
@@ -82,9 +79,9 @@ def main():
     top10 = P.dropna(subset=["ret_f1"]).groupby("month").me.apply(lambda s: s.nlargest(10).sum() / s.sum())
     out["top10_share_of_sample_cap"] = float(top10.mean())
     json.dump(out, open(f"{R}/logs/costs.json", "w"), default=float, indent=1)
-    cols = [("ew", "EW"), ("ew_x", "EW, excl.\\ Jan.\\ 2021"), ("vw", "VW"), ("vwc", "Capped VW")]
+    cols = [("ew", "EW"), ("vw", "VW"), ("vwc", "Capped VW")]
     pc = lambda x: f"{100 * x:.1f}"
-    rows = ["\\multicolumn{5}{l}{\\emph{Panel A: Portfolio composition}} \\\\"]
+    rows = ["\\multicolumn{4}{l}{\\emph{Panel A: Portfolio composition}} \\\\"]
     for k, lab, f in [("n_long", "Stocks in the long leg", lambda x: f"{x:.1f}"),
                       ("n_short", "Stocks in the short leg", lambda x: f"{x:.1f}"),
                       ("turnover_long", "Monthly turnover, long leg (\\%)", pc),
@@ -97,7 +94,7 @@ def main():
                       ("effn_short", "Effective number of stocks, short leg", lambda x: f"{x:.1f}")]:
         rows.append([lab] + [f(out[c][k]) for c, _ in cols])
     rows.append("\\addlinespace")
-    rows.append("\\multicolumn{5}{l}{\\emph{Panel B: Six-factor alpha net of trading costs (\\% per month)}} \\\\")
+    rows.append("\\multicolumn{4}{l}{\\emph{Panel B: Six-factor alpha net of trading costs (\\% per month)}} \\\\")
     for k, lab in [("gross", "Gross"), ("net_10", "One-way cost of 10 bp"), ("net_25", "One-way cost of 25 bp"),
                    ("net_50", "One-way cost of 50 bp")]:
         rows.append([lab] + [f"{100 * out[c][k][0]:.2f}{ap.stars(out[c][k][1])}" for c, _ in cols])
@@ -113,7 +110,7 @@ def main():
              "six-factor alpha of the net long-short return. The break-even cost is the one-way cost at which that alpha is zero. "
              "Newey-West $t$-statistics (four lags) in parentheses.")
     tex = ap.latex_table([["", *[c for _, c in cols]]], rows, "Turnover, concentration, and trading costs", "tab:costs", notes,
-                         colspec="lcccc")
+                         colspec="lccc")
     open(f"{R}/tables/tab_costs.tex", "w").write(tex)
     print(json.dumps(out, default=float, indent=1))
 

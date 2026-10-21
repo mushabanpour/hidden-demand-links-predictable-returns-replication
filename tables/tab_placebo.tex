@@ -1,0 +1,31 @@
+\begin{table}[!htbp]\centering
+\caption{Placebo networks}\label{tab:placebo}
+\footnotesize
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+ & Equal-weighted & Value-weighted & Capped value-weighted \\
+\midrule
+\multicolumn{4}{l}{\emph{Panel A: Peer return}} \\
+Actual network: six-factor alpha (\%) & 3.01 & 2.08 & 1.48 \\
+\multicolumn{4}{l}{Reshuffled within category, each month} \\
+\quad placebo mean (\%) & 1.73 & 0.94 & 0.69 \\
+\quad $p$-value & 0.008 & 0.000 & 0.000 \\
+\multicolumn{4}{l}{Reshuffled within category and size tercile} \\
+\quad placebo mean (\%) & 2.24 & 1.20 & 0.96 \\
+\quad $p$-value & 0.026 & 0.000 & 0.026 \\
+\multicolumn{4}{l}{Same relabeling within category in every month} \\
+\quad placebo mean (\%) & 1.69 & 0.94 & 0.69 \\
+\quad $p$-value & 0.000 & 0.002 & 0.010 \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Panel B: Industry-adjusted peer return}} \\
+Actual network: six-factor alpha (\%) & 1.37 & 0.46 & 0.67 \\
+\multicolumn{4}{l}{Reshuffled within category, each month} \\
+\quad placebo mean (\%) & 0.22 & 0.10 & 0.21 \\
+\quad $p$-value & 0.054 & 0.326 & 0.140 \\
+\addlinespace
+Months & 77 & 77 & 77 \\
+Placebo networks per design & 500 & 500 & 500 \\
+\bottomrule
+\end{tabular*}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Each placebo network keeps the customer-overlap matrix but relabels the firms in its rows and columns: within their month-$t$ SafeGraph category, independently each month (the design of Figure~\ref{fig:perm}); within category and tercile of market capitalization within the category, so that each placebo peer is about the size of the firm it replaces; or with one random relabeling within each category that is held fixed in every month. For each placebo network the peer return is recomputed and the quintile long-short portfolio re-formed; Panel B re-estimates the industry adjustment of equation~\eqref{eq:adj} for every placebo network. Capped value weights cap market capitalization at the NYSE 80th percentile of month $t$ (Table~\ref{tab:costs}). The table reports the six-factor alpha of the actual network, the mean alpha across placebo networks, and $p$, the share of placebo alphas at least as large as the actual alpha.\end{minipage}
+\end{table}

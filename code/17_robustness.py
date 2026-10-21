@@ -119,14 +119,10 @@ def main():
     P["tic"] = P.permno.map(nm_)
     P["ret_w"] = P.groupby("month").ret_f1.transform(lambda s: ap.winsor(s, 0.01))
     specs = [("Baseline", P, "sig", "ret_f1"),
-             ("Excluding January 2021 (meme-stock episode)", P[P.month != pd.Period("2020-12", "M")], "sig", "ret_f1"),
-             ("Excluding GME, AMC, BBBY, EXPR (all months)", P[~P.tic.isin(["GME", "AMC", "BBBY", "EXPR"])], "sig", "ret_f1"),
              ("Returns winsorized at 1\\%/99\\% each month", P, "sig", "ret_w"),
-             ("Excluding return months in 2020", P[(P.month + 1).dt.year != 2020], "sig", "ret_f1"),
-             ("Excluding formation months in 2020 (returns 2020:02--2021:01)", P[P.month.dt.year != 2020], "sig", "ret_f1"),
              ("First half (formation 2019:07--2022:06)", P[P.month <= pd.Period("2022-06", "M")], "sig", "ret_f1"),
              ("Second half (formation 2022:07--2025:11)", P[P.month > pd.Period("2022-06", "M")], "sig", "ret_f1"),
-             ("Excluding networks estimated across the May 2024 panel change", P[~P.window_spans_2024_05.fillna(False).astype(bool)],
+             ("Excluding networks spanning the May 2024 panel change", P[~P.window_spans_2024_05.fillna(False).astype(bool)],
               "sig", "ret_f1"),
              ("Price $\\geq$ \\$5", P[P.prc >= 5], "sig", "ret_f1"),
              ("Excluding microcaps (NYSE 20th pct.)", P[P.me >= P.nyse20], "sig", "ret_f1"),
@@ -140,9 +136,7 @@ def main():
                    ("CO_FROZEN", "Frozen 2019 network (formation 2020--2025)"),
                    ("CO_LAG2", "Network lagged two months (card data $t-13$ to $t-2$)"),
                    ("CO_LAG3", "Network lagged three months (card data $t-14$ to $t-3$)"),
-                   ("co_strong", "Strongest third of each firm's links"), ("co_ntnic", "Excluding TNIC-3 rivals"),
-                   ("RPS_pos", "Shared tastes (RPS) instead of overlap"), ("RPS_FROZEN", "Shared tastes, frozen 2019 network"),
-                   ("RPS_D_pos", "Shared tastes, location-free channels only")]:
+                   ("co_strong", "Strongest third of each firm's links"), ("co_ntnic", "Excluding TNIC-3 rivals")]:
         if c in P:
             D = P.copy(); D["sig2"] = D.groupby("month")[c].transform(lambda s: ap.winsor(s))
             specs.append((lab, D, "sig2", "ret_f1"))
@@ -162,15 +156,15 @@ def main():
            "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}"]
     notes = ("Each row re-estimates the main tests under one change. EW/VW FF6 $\\alpha$: monthly alpha of the quintile "
              "long-short portfolio (Table~\\ref{tab:alphas}). FM slope: Fama-MacBeth coefficient on the peer return with the "
-             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--14 change the sample, the return, or the test assets (the May 2024 "
+             "controls of Table~\\ref{tab:fm}, column (5). Rows 2--10 change the sample, the return, or the test assets (the May 2024 "
              "row drops the twelve formation months whose network window includes May 2024, when SafeGraph changed its panel and "
              "file format; the retail and restaurant row keeps only firms whose month-$t$ SafeGraph category is a retail-store "
              "category of NAICS 44--45 other than gasoline stations or a restaurant or bar category of NAICS 722, as focal firms "
-             "and as peers); the next nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
+             "and as peers); the last nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
              "peers; the share of $i$'s customers who shop at $j$ instead of the symmetric average; a 6- or 24-month window; a "
              "network estimated once from 2019 card data and held fixed; a network built from card data ending two or three months "
              "before formation instead of one; only the strongest third of each firm's links; or excluding peers that are TNIC-3 "
-             "rivals); the last three rows replace customer overlap by RPS. Newey-West $t$-statistics "
+             "rivals). Newey-West $t$-statistics "
              "(four lags) in parentheses.")
     open(f"{R}/tables/tab_robust.tex", "w").write(
         ap.latex_table(hdr, rows, "Robustness", "tab:robust", notes, colspec="lccccccc", size="\\scriptsize"))

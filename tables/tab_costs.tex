@@ -1,33 +1,33 @@
 \begin{table}[!htbp]\centering
 \caption{Turnover, concentration, and trading costs}\label{tab:costs}
 \footnotesize
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
 \toprule
- & EW & EW, excl.\ Jan.\ 2021 & VW & Capped VW \\
+ & EW & VW & Capped VW \\
 \midrule
-\multicolumn{5}{l}{\emph{Panel A: Portfolio composition}} \\
-Stocks in the long leg & 34.5 & 34.5 & 34.5 & 34.5 \\
-Stocks in the short leg & 34.7 & 34.7 & 34.7 & 34.7 \\
-Monthly turnover, long leg (\%) & 77.8 & 77.9 & 84.5 & 82.6 \\
-Monthly turnover, short leg (\%) & 76.0 & 76.2 & 82.9 & 78.1 \\
-Largest weight, long leg (\%) & 2.9 & 2.9 & 42.5 & 9.3 \\
-Five largest weights, long leg (\%) & 14.5 & 14.5 & 79.7 & 43.6 \\
-Effective number of stocks, long leg & 34.5 & 34.5 & 4.9 & 16.0 \\
-Largest weight, short leg (\%) & 2.9 & 2.9 & 41.3 & 8.7 \\
-Five largest weights, short leg (\%) & 14.4 & 14.4 & 79.3 & 41.5 \\
-Effective number of stocks, short leg & 34.7 & 34.7 & 5.2 & 16.5 \\
+\multicolumn{4}{l}{\emph{Panel A: Portfolio composition}} \\
+Stocks in the long leg & 34.5 & 34.5 & 34.5 \\
+Stocks in the short leg & 34.7 & 34.7 & 34.7 \\
+Monthly turnover, long leg (\%) & 77.8 & 84.5 & 82.6 \\
+Monthly turnover, short leg (\%) & 76.0 & 82.9 & 78.1 \\
+Largest weight, long leg (\%) & 2.9 & 42.5 & 9.3 \\
+Five largest weights, long leg (\%) & 14.5 & 79.7 & 43.6 \\
+Effective number of stocks, long leg & 34.5 & 4.9 & 16.0 \\
+Largest weight, short leg (\%) & 2.9 & 41.3 & 8.7 \\
+Five largest weights, short leg (\%) & 14.4 & 79.3 & 41.5 \\
+Effective number of stocks, short leg & 34.7 & 5.2 & 16.5 \\
 \addlinespace
-\multicolumn{5}{l}{\emph{Panel B: Six-factor alpha net of trading costs (\% per month)}} \\
-Gross & 3.01*** & 2.01*** & 2.08*** & 1.48** \\
- & (3.09) & (3.71) & (3.32) & (2.52) \\
-One-way cost of 10 bp & 2.70*** & 1.71*** & 1.74*** & 1.16** \\
- & (2.77) & (3.13) & (2.78) & (1.97) \\
-One-way cost of 25 bp & 2.24** & 1.24** & 1.24** & 0.68 \\
- & (2.29) & (2.27) & (1.98) & (1.15) \\
-One-way cost of 50 bp & 1.47 & 0.47 & 0.40 & -0.12 \\
- & (1.49) & (0.86) & (0.63) & (-0.21) \\
-Break-even one-way cost (bp) & 98 & 66 & 62 & 46 \\
-Months & 77 & 76 & 77 & 77 \\
+\multicolumn{4}{l}{\emph{Panel B: Six-factor alpha net of trading costs (\% per month)}} \\
+Gross & 3.01*** & 2.08*** & 1.48** \\
+ & (3.09) & (3.32) & (2.52) \\
+One-way cost of 10 bp & 2.70*** & 1.74*** & 1.16** \\
+ & (2.77) & (2.78) & (1.97) \\
+One-way cost of 25 bp & 2.24** & 1.24** & 0.68 \\
+ & (2.29) & (1.98) & (1.15) \\
+One-way cost of 50 bp & 1.47 & 0.40 & -0.12 \\
+ & (1.49) & (0.63) & (-0.21) \\
+Break-even one-way cost (bp) & 98 & 62 & 46 \\
+Months & 77 & 77 & 77 \\
 \bottomrule
 \end{tabular*}
 \par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Quintile long-short portfolio of Table~\ref{tab:sorts}, Panel A. Capped VW caps each firm's market capitalization at the month-$t$ NYSE 80th percentile before value-weighting \citep{JensenKellyPedersen2023}. Turnover is half the sum of absolute weight changes at each monthly rebalancing, measured against the previous portfolio's weights after one month of returns (stocks that leave the portfolio count in full), averaged over rebalancing months. The effective number of stocks is the inverse of the sum of squared weights. Panel B subtracts, each month, a one-way cost per dollar traded times the dollars traded in both legs (twice the one-sided turnover of each leg; the first portfolio is bought from cash) and reports the six-factor alpha of the net long-short return. The break-even cost is the one-way cost at which that alpha is zero. Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}

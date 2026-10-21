@@ -74,7 +74,7 @@ def table1(P):
 
 
 def networks(P):
-    nets = ["CO", "RPS", "RPS_D", "RAW", "STORE", "HOME", "INC"]
+    nets = ["CO", "RPS", "RAW", "STORE", "HOME", "INC"]
     C, terc, dist = [], [], []
     for t, d in P.groupby("month"):
         S = pd.read_parquet(f"{R}/data/derived/sim/{t}.parquet")
