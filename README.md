@@ -58,6 +58,7 @@ Run the scripts in `code/` in this order; each stage skips months it has already
 | 11 | `python3 code/11_fundamentals.py`, `python3 code/31_common_ownership.py` | card-spend growth and earnings events; Antón-Polk common ownership among sample firms |
 | 11b | `python3 code/58_fcap_universe_pull.py` | 13F common ownership between each sample firm and every other stock, computed on the WRDS server (about an hour) |
 | 11c | `SEC_USER_AGENT="<name> <email>" python3 code/60_hq_history.py` | business addresses in the headers of the sample firms' 10-K filings on EDGAR (the SEC asks for a contact in the User-Agent), for the count of headquarters moves in Appendix A |
+| 11d | `python3 code/63_fundq_extra_pull.py` | additional quarterly Compustat items for the fundamentals table (SG&A, pretax income, year-to-date operating cash flow and capital expenditures, inventory, interest expense) |
 
 Sample rules: CRSP common stocks (share type NS, security type EQTY, sub-type COM) on NYSE, NYSE American or
 Nasdaq; trailing-year panel card spending at least 0.1% of the latest annual sales; price at least $1; at least
@@ -72,21 +73,22 @@ minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 | Article | Script | Output |
 |---|---|---|
 | Table 1, Table 2, Table 3 | `18_descriptives.py` | `tables/tab_sample.tex`, `tab_examples.tex`, `tab_networks.tex` |
-| Table 4 | `14_comovement.py` | `tables/tab_comove.tex` |
-| Tables 5, 6, 8; Figure 2 | `13_main_tables.py co` | `tables/tab_sorts.tex`, `tab_alphas.tex`, `tab_fm.tex`; `figures/fig_cumret.pdf` |
-| Table 7; Figure 3 | `30_eventtime_cf.py` | `tables/tab_eventtime.tex`; `figures/fig_eventtime.pdf` |
-| Table 9 | `54_geo_category.py`, then `29_decomp_table.py` | `tables/tab_decomp.tex`; `logs/geo_category.json` |
-| Table 10 | `15_cashflow_news.py co` | `tables/tab_cfnews.tex` |
-| Table 11 | `55_card_power.py` | `tables/tab_cardpower.tex`; `logs/card_power.json` |
-| Tables 12, 13 | `59_fcap_universe.py` (after step 11b), then `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex`; `logs/fcap_universe.json` |
-| Table 14 | `16_attention.py co` | `tables/tab_visibility.tex`; `logs/visibility.json` |
-| Table 15; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
-| Table 16 | `56_placebo_ext.py` | `tables/tab_placebo.tex`; `logs/placebo_ext.json` |
-| Table 17 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |
-| Appendix Table 19 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
+| Table 4 | `64_fundamentals_comove.py` (after step 11d) | `tables/tab_fundcomove.tex`; `logs/fundcomove.json` |
+| Table 5 | `14_comovement.py` | `tables/tab_comove.tex` |
+| Tables 6, 7, 9; Figure 2 | `13_main_tables.py co` | `tables/tab_sorts.tex`, `tab_alphas.tex`, `tab_fm.tex`; `figures/fig_cumret.pdf` |
+| Table 8; Figure 3 | `30_eventtime_cf.py` | `tables/tab_eventtime.tex`; `figures/fig_eventtime.pdf` |
+| Table 10 | `54_geo_category.py`, then `29_decomp_table.py` | `tables/tab_decomp.tex`; `logs/geo_category.json` |
+| Table 11 | `15_cashflow_news.py co` | `tables/tab_cfnews.tex` |
+| Table 12 | `55_card_power.py` | `tables/tab_cardpower.tex`; `logs/card_power.json` |
+| Tables 13, 14 | `59_fcap_universe.py` (after step 11b), then `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex`; `logs/fcap_universe.json` |
+| Table 15 | `16_attention.py co` | `tables/tab_visibility.tex`; `logs/visibility.json` |
+| Table 16; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
+| Table 17 | `56_placebo_ext.py` | `tables/tab_placebo.tex`; `logs/placebo_ext.json` |
+| Table 18 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |
+| Appendix Table 20 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
 | Figure 1 | `28_fig_dist.py` | `figures/fig_distributions.pdf` |
-| Appendix Table 20 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
-| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59`, `60` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json`, `hq_history.json` |
+| Appendix Table 21 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
+| In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59`, `60`, `64` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json`, `hq_history.json`, `fundcomove.json` |
 
 `code/aplib.py` holds the shared estimators (portfolio sorts, factor regressions, Fama-MacBeth with Newey-West
 standard errors, LaTeX tables) and `code/figstyle.py` the figure style.
