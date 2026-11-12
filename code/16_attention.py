@@ -15,7 +15,7 @@ R = ap.R
 SIG = sys.argv[1] if len(sys.argv) > 1 else "co"
 BASE = SIG.split("_pos")[0].split("_top")[0]
 SPL = (lambda nm: f"co_{nm}") if SIG == "co" else (lambda nm: f"{BASE}_pos_{nm}")
-CTL = ["ret", "ind_u", "indret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret", "size", "bm", "gpa", "ik", "mom"]
+CTL = M.CONTROLS                                  # the baseline controls of Table 9, column (5)
 
 
 def visibility(P):
@@ -49,7 +49,7 @@ def visibility(P):
     notes = ("Fama-MacBeth regressions of month-$t+1$ returns on the month-$t$ returns of two disjoint subsets of each firm's "
              "customer-overlap peers (each weighted by shared customers within the subset), the controls of "
              "Table~\\ref{tab:fm}, column (5), and the equal-weighted average return of sample firms outside the firm's FF48 "
-             "industry. The sample is firms with at least one customer-overlap peer; when one subset is empty, its return is set "
+             "industry. The sample consists of firms with at least one customer-overlap peer; when one subset is empty, its return is set "
              "to the monthly cross-sectional mean of that subset return. Column (1) splits peers by whether they share the focal firm's FF48 industry; "
              "column (2) by whether they are TNIC-3 product-market rivals; column (3) by whether at least one IBES analyst covered "
              "both firms in the previous calendar year. ``Hidden $-$ visible'' is the time-series average of the monthly difference "

@@ -150,8 +150,8 @@ def main():
                       f"{o['fm'][0]:.3f}{ap.stars(o['fm'][1])}", f"({o['fm'][1]:.2f})", str(o["T"])])
     notes = ("Panel A: shares computed from the same-category cross-shopping list of every store (POI) of the sample firms. "
              "The censoring threshold is the smallest share listed at stores whose list holds the maximum of twenty brands; a brand "
-             "that is not listed there has a share below it. Ratios and correlations are medians and averages over linked pairs "
-             "(positive baseline overlap). Panel B: the baseline rebuilt from store-level detail (its monthly correlation with the "
+             "that is not listed there has a share below it. Ratios are medians over linked pairs (positive baseline overlap), and correlations are "
+             "computed over the same pairs. Panel B: the baseline rebuilt from store-level detail (its monthly correlation with the "
              f"network of Section~\\ref{{sec:co}} averages {summ['rebuild_corr_mean']:.4f}) and five variants: a peer firm's brands "
              "combined by the largest brand-level share (as if the brands' clienteles coincided) or by the sum capped at one (as if "
              "they were disjoint) instead of $1-\\prod_b(1-A_{ib})$; every store-month weighted equally instead of by its customers; "

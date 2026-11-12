@@ -109,7 +109,7 @@ def main():
         if key != "vw":
             rows.append("\\addlinespace")
     m0, t0, _ = window(res["ew"][1], 0, 0)
-    notes = ("At the end of each month $t$ firms are sorted into quintiles on the month-$t$ customer-overlap peer return. "
+    notes = ("At the end of each month $t$, firms are sorted into quintiles on the month-$t$ customer-overlap peer return. "
              "The table reports the average cumulative return (in percent) over event windows in months $t+k$ of the focal "
              "long-short portfolio (top minus bottom quintile) and of the same difference in the firms' overlap-peer portfolios, "
              "whose composition and weights are fixed at formation (the sorting variable); $k=0$ is the signal month and "

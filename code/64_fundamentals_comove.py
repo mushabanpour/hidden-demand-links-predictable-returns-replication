@@ -9,7 +9,7 @@ winsorized at 1%/99% over the sample firm-quarters. For each fundamental y and n
     y_iq = d_q + b * ybar^N_iq + g * ybar^cat_-i,q + f * y_i,q-1 + c'Z_iq + e_iq,   ybar^N_iq = sum_j w_ij y_jq / sum_j w_ij
 
 with networks formed in the first month of q (card data t-12..t-1), quarter fixed effects, standard errors clustered by
-firm and quarter, and Z = log size, log book-to-market, momentum. Networks: customer overlap (CO); shared tastes (RPS,
+firm and quarter, and Z = log size, log book-to-market (0 if book equity <= 0, plus an indicator), momentum. Networks: customer overlap (CO); shared tastes (RPS,
 positive part, all sample firms); the local-market and firm-specific components of overlap, entered jointly as in
 Table 9 (a firm with no peer in a component gets that quarter's cross-sectional mean); and same-FF48 peers (equal-
 weighted, leave-one-out).
@@ -116,7 +116,7 @@ def build_panel(P, F):
         O = O[O.i.isin(U[t]) & O.j.isin(U[t]) & (O.A_S > 0)]
         S = pd.read_parquet(f"{R}/data/derived/sim/{t}.parquet", columns=["i", "j", "RPS"])
         S = S[S.i.isin(U[t]) & S.j.isin(U[t]) & (S.i != S.j)]
-        d = P[P.month == t][["permno", "cat", "ff48", "size", "bm", "mom"]].copy()
+        d = P[P.month == t][["permno", "cat", "ff48", "size", "bm", "negbe", "mom"]].copy()
         fq = F[F.cq == cq].set_index("permno")
         for v in VARS:
             own = d.permno.map(fq[v])
@@ -148,11 +148,11 @@ def fit(A, y, xs, ctl):
 
 
 def main():
-    P = M.load("co"); P = P[P.sig.notna()][["permno", "month", "cat", "ff48", "size", "bm", "mom"]].copy()
+    P = M.load("co"); P = P[P.sig.notna()][["permno", "month", "cat", "ff48", "size", "bm", "negbe", "mom"]].copy()
     A = build_panel(P, fundamentals(set(P.permno)))
     res = {}
     for v in VARS:
-        ctl = [f"cat_{v}", f"{v}_m1", "size", "mom"] + ([] if v == "bm_f" else ["bm"])
+        ctl = [f"cat_{v}", f"{v}_m1", "size", "mom"] + ([] if v == "bm_f" else ["bm", "negbe"])
         y = f"{v}_0"; r = {}
         r["co"], = fit(A, y, [f"co_{v}"], ctl)
         r["rps"], = fit(A, y, [f"rps_{v}"], ctl)
@@ -177,9 +177,10 @@ def main():
     cex = [res[v]["corr_E_X"] for v in VARS]
     n_ind = [res[v]["ind"][2] for v in VARS]
     notes = ("Panel regressions of a firm's fundamental in calendar quarter $q$ (fiscal quarters assigned by their middle month) on "
-             "the same fundamental of its peers in $q$, $\\bar y^{N}_{iq}=\\sum_j w^{N}_{ijq}y_{jq}/\\sum_j w^{N}_{ijq}$, controlling "
-             "for the average of the other firms in its SafeGraph category, its own value in $q-1$, log size, log book-to-market, and "
-             "momentum, with quarter fixed effects; each network is a separate regression. Fundamentals are year-over-year changes "
+             "the same fundamental of its peers in $q$, $\\overline{\\mathrm{Fundamental}}^{\\,N}_{iq}=\\sum_j w^{N}_{ijq}\\mathrm{Fundamental}_{jq}/\\sum_j w^{N}_{ijq}$, controlling "
+             "for the average of the other firms in its SafeGraph category, its own value in $q-1$, log size, log book-to-market (set to "
+             "zero for firms with negative book equity, with an indicator for them; both omitted for the book-to-market fundamental), "
+             "and momentum, with quarter fixed effects; each network is a separate regression. Fundamentals are year-over-year changes "
              "from Compustat and IBES ($\\Delta\\log$: log growth; $\\Delta X/A$: change scaled by total assets a year earlier; other "
              "$\\Delta$: change in the ratio; GP: sales minus cost of goods sold; OP: revenue minus cost of goods sold, SG\\&A, and "
              "interest; FCF: operating cash flow minus capital expenditures; ACC: income before extraordinary items minus operating "

@@ -16,13 +16,54 @@ SIG = sys.argv[1] if len(sys.argv) > 1 else "co"
 TAB, FIG = f"{R}/tables", f"{R}/figures"
 F = ap.factors()
 Fn = F.copy(); Fn.index = Fn.index - 1          # month t+1 factors aligned with formation month t
-CONTROLS = ["ret", "ind_u", "indret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret", "size", "bm", "gpa", "ik", "mom"]
+CONTROLS = ["ret", "ind_u", "indret", "naics_u", "naics_ret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret",
+            "size", "bm", "negbe", "gpa", "ik", "mom"]
 LABEL = {"sig": "Customer-overlap peer return", "sig_l1": "Customer-overlap peer return, $t-1$",
          "cat_ew": "Same-category return (EW)", "cat_vw": "Same-category return (VW)", "RPS_pos": "Shared-taste (RPS) peer return", "ret": "Own return",
          "STORE_pos": "Store-footprint peer return", "tnic_ret": "TNIC-3 peer return",
          "indret": "Industry return (FF48, all stocks)", "ind_u": "Own-industry peers' return", "hq_ret": "HQ-city peer return", "cov_ret": "Shared-analyst peer return", "cust_ret": "Customer return",
-         "size": "Log market cap", "bm": "Log book-to-market", "gpa": "Gross profitability", "ik": "Investment (CAPX/PPE)",
+         "naics_u": "Own NAICS-4 peers' return", "naics_ret": "Industry return (NAICS-4, all stocks)",
+         "size": "Log market cap", "bm": "Log book-to-market", "negbe": "Negative book equity (indicator)",
+         "gpa": "Gross profitability", "ik": "Investment (CAPX/PPE)",
          "mom": "Momentum $r_{t-11,t-1}$", "ret_l1": "Own return, $t-1$", "HOME_pos": "Customer-home peer return"}
+C7 = __import__("importlib").import_module("07_characteristics")
+# industry adjustment of the sorts (Table 7, Panel B; placebo in 56_placebo_ext.py): own NAICS-4 peers' and NAICS-4 industry
+# returns and the same-category returns (revision of 2026-11-11; previously the FF48 own-industry and industry returns)
+ADJ = ["naics_u", "naics_ret", "cat_ew", "cat_vw"]
+
+
+def add_naics4(P):
+    """4-digit NAICS (Compustat) industry returns, built like the FF48 ones: naics_u is the equal-weighted return of the other
+    sample firms in the firm's NAICS-4 industry, naics_ret the value-weighted (lagged market cap) return of all CRSP common
+    stocks in it excluding the firm (at least three stocks). Compustat NAICS codes are first put on the NAICS 2022 vintage."""
+    comp = pd.read_parquet(f"{R}/data/raw/comp_company.parquet", columns=["gvkey", "naics"]).drop_duplicates("gvkey")
+    h = pd.read_parquet(f"{R}/data/derived/naics4_2022.parquet").set_index("naics").naics4_2022   # one vintage (00_aux_inputs naics)
+    comp = comp.set_index("gvkey").naics.astype(str).str.strip().map(h)
+    n4 = lambda g: g.map(comp)
+    sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret", "wlag", "gvkey"])
+    sm["n4"] = n4(sm.gvkey); sm["rw"] = sm.ret * sm.wlag
+    tot = sm.dropna(subset=["n4"]).groupby(["month", "n4"]).agg(S=("rw", "sum"), Wt=("wlag", "sum"), N=("ret", "count")).reset_index()
+    sm = sm.merge(tot, on=["month", "n4"], how="left")
+    sm["naics_ret"] = ((sm.S - sm.rw.fillna(0)) / (sm.Wt - sm.wlag.fillna(0))).where(sm.N >= 3)
+    P = P.merge(sm[["permno", "month", "naics_ret"]], on=["permno", "month"], how="left")
+    P["n4"] = n4(P.gvkey)
+    g = P.groupby(["month", "n4"]).ret
+    n_i, s_i = g.transform("count"), g.transform("sum")
+    P["naics_u"] = ((s_i - P.ret) / (n_i - 1)).where(n_i >= 2)
+    return P.drop(columns=["n4"])
+
+
+def add_negbe(P):
+    """negbe = 1 if the firm's book equity (Compustat annual, public six months after fiscal year-end, as in
+    07_characteristics.py) is zero or negative, else 0. Log book-to-market is undefined for these firms and is set to 0,
+    so that they stay in every regression that controls for book-to-market."""
+    acc = C7.annual_accounting()[["permno", "month", "be"]].rename(columns={"be": "be_pit"})
+    m = C7.merge_asof_period(P[["permno", "month"]].drop_duplicates(), acc)
+    P = P.merge(m[["permno", "month", "be_pit"]], on=["permno", "month"], how="left")
+    neg = P.be_pit <= 0
+    P["negbe"] = np.where(P.be_pit.notna(), neg.astype(float), np.nan)
+    P.loc[neg & P.bm.isna(), "bm"] = 0.0
+    return P.drop(columns=["be_pit"])
 
 
 def load(sig=SIG, src="panel_final"):
@@ -36,6 +77,7 @@ def load(sig=SIG, src="panel_final"):
     P["ind_u"] = ((s_i - P.ret) / (n_i - 1)).where(n_i >= 2)
     s_a = P.groupby("month").ret.transform("sum"); n_a = P.groupby("month").ret.transform("count")
     P["xind_u"] = (s_a - s_i) / (n_a - n_i)
+    P = add_naics4(P)
     for c in [c for c in P.columns if c.endswith("_cross")]:
         P[c + "_x"] = P[c] - P.xind_u            # RPS-weighted cross-industry return in excess of the naive average
     P = P.sort_values(["permno", "month"])
@@ -43,17 +85,18 @@ def load(sig=SIG, src="panel_final"):
     P = P.merge(lag.rename(columns={"sig": "sig_l1"}), on=["permno", "month"], how="left")
     P["ik"] = P.ik.clip(upper=P.ik.quantile(0.99))
     for c in ["sig", "sig_l1", "ret", "ret_l1", "STORE_pos", "HOME_pos", "RPS_pos", "tnic_ret", "indret", "ind_u", "hq_ret", "cov_ret", "cust_ret",
-              "size", "bm", "gpa", "ik", "mom", "ag"]:
+              "naics_u", "naics_ret", "size", "bm", "gpa", "ik", "mom", "ag"]:
         P[c] = P.groupby("month")[c].transform(lambda s: ap.winsor(s.replace([np.inf, -np.inf], np.nan)))
     # controls that exist only for linked firms: missing -> monthly cross-sectional mean (no link = no news)
-    for c in [c for c in ["tnic_ret", "hq_ret", "cov_ret", "cust_ret", "cat_ew", "cat_vw"] if c in P]:
+    for c in [c for c in ["tnic_ret", "hq_ret", "cov_ret", "cust_ret", "cat_ew", "cat_vw", "naics_u", "naics_ret"] if c in P]:
         P[c] = P[c].fillna(P.groupby("month")[c].transform("mean"))
+    P = add_negbe(P)
     if "cat_ew" not in P:                       # base panel (before the category returns are built)
         return P
     P["exret_f1"] = P.ret_f1 - P.month.map(Fn.rf)
     # industry-adjusted signal: monthly cross-sectional residual of the peer return on industry returns
     def resid(d):
-        x = d[["ind_u", "indret", "cat_ew", "cat_vw"]].fillna(d[["ind_u", "indret", "cat_ew", "cat_vw"]].mean())
+        x = d[ADJ].fillna(d[ADJ].mean())
         X = np.column_stack([np.ones(len(d)), x.values]); y = d.sig.values; ok = ~np.isnan(y)
         b = np.linalg.lstsq(X[ok], y[ok], rcond=None)[0]
         return pd.Series(y - X @ b, index=d.index)
@@ -89,7 +132,7 @@ def sorts_table(P):
              "had the lowest returns and portfolio $Q$ those whose peers had the highest. The table reports average month-$t+1$ "
              "returns in percent per month; High$-$Low is portfolio $Q$ minus portfolio 1. Value weights use month-$t$ market "
              "capitalization. Newey-West $t$-statistics (four lags) in parentheses. "
-             f"Sample: {P.dropna(subset=['ret_f1']).month.min()+1} to {P.dropna(subset=['ret_f1']).month.max()+1}, {T} months.")
+             f"Sample: {(P.dropna(subset=['ret_f1']).month.min()+1).strftime('%B %Y')} to {(P.dropna(subset=['ret_f1']).month.max()+1).strftime('%B %Y')}, {T} months.")
     tex = ap.latex_table([["Portfolio", *[str(q) for q in range(1, 11)], "High$-$Low"]], rows,
                          "Portfolios sorted on customer-overlap peers' returns", "tab:sorts", notes,
                          colspec="l" + "c" * 11)
@@ -141,8 +184,9 @@ def alpha_table(res, P):
              "(FF3); FF3 plus momentum (FFC4); Fama-French five-factor (FF5); FF5 plus momentum (FF6); and the $q$-factor "
              "(HXZ4) and $q^5$ (HXZ5) models of \\citet{HouXueZhang2015} and \\citet{HouMoXueZhang2021}. Alphas in percent "
              "per month; Raw is the average long-short return without factor adjustment. Panel B sorts into quintiles on the peer "
-             "return after removing, month by month, its cross-sectional projection on the own-industry, same-category (EW and VW), "
-             "and FF48 industry returns. Panel C reports the factor loadings of the equal-weighted regressions in Panel A: MKT, SMB, "
+             "return after removing, month by month, its cross-sectional projection on the own NAICS-4 peers' return (other sample "
+             "firms in the firm's 4-digit NAICS industry), the NAICS-4 industry return (all CRSP stocks in it excluding the firm), "
+             "and the same-category returns (EW and VW). Panel C reports the factor loadings of the equal-weighted regressions in Panel A: MKT, SMB, "
              "HML, and MOM are the market, size, value, and momentum factors of the three-factor and Carhart models; SMB$_5$ and "
              "HML$_5$ are the size and value factors of the five-factor model, with RMW (profitability) and CMA (investment); "
              "MKT$_q$, ME, IA, ROE, and EG are the market, size, investment, profitability, and expected-growth factors of the "
@@ -178,15 +222,15 @@ def figures(P, res):
 
 
 def fm_table(P):
-    base = ["ret", "ind_u", "indret", "cat_ew", "cat_vw"]
-    chars = ["size", "bm", "gpa", "ik", "mom"]
+    base = ["ret", "ind_u", "indret", "naics_u", "naics_ret", "cat_ew", "cat_vw"]
+    chars = ["size", "bm", "negbe", "gpa", "ik", "mom"]
     specs = [["sig"], ["sig", "ret"], ["sig"] + base,
              ["sig"] + base + ["STORE_pos", "tnic_ret"],
              ["sig"] + base + ["STORE_pos", "tnic_ret"] + chars,
              ["sig", "sig_l1"] + base + ["ret_l1", "STORE_pos", "tnic_ret"] + chars,
              ["sig"] + base + ["STORE_pos", "tnic_ret", "hq_ret", "cov_ret", "cust_ret", "RPS_pos", "HOME_pos"] + chars]
-    allv = ["sig", "sig_l1", "ret", "ret_l1", "ind_u", "indret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret", "hq_ret",
-            "cov_ret", "cust_ret", "RPS_pos", "HOME_pos"] + chars
+    allv = ["sig", "sig_l1", "ret", "ret_l1", "ind_u", "indret", "naics_u", "naics_ret", "cat_ew", "cat_vw", "STORE_pos",
+            "tnic_ret", "hq_ret", "cov_ret", "cust_ret", "RPS_pos", "HOME_pos"] + chars
     fm = []
     for s in specs:
         r, r2, n, T = ap.fama_macbeth(P, "ret_f1", s)
@@ -227,13 +271,16 @@ def fm_table(P):
              "$t$. The customer-overlap peer return is the month-$t$ return of other sample firms weighted by the share of customers "
              "they have in common with the firm (equation~\\eqref{eq:peer}; card data from $t-12$ to $t-1$). Own-industry peers' and "
              "same-category returns are leave-one-out averages over sample firms in the firm's FF48 industry and in its SafeGraph "
-             "category (the most frequent category of its stores over months $t-12$ to $t-1$), equal- or value-weighted. "
-             "The shared-taste return weights peers by RPS (Section~\\ref{sec:rps}) and the customer-home return by \\textsc{Home}; "
+             "category (its most frequent monthly category over months $t-12$ to $t-1$), equal- or value-weighted; the own "
+             "NAICS-4 peers' return is the equal-weighted average over the other sample firms in the firm's 4-digit NAICS industry "
+             "(Compustat). The shared-taste return weights peers by RPS (Section~\\ref{sec:rps}) and the customer-home return by \\textsc{Home}; "
              "the store-footprint return weights peers by \\textsc{Store}; the TNIC-3 return is the equal-weighted return of "
-             "TNIC-3 rivals; the industry return is the value-weighted FF48 return of all CRSP stocks excluding the firm; the "
-             "customer return follows \\citet{CohenFrazzini2008}; the HQ-city and shared-analyst returns follow \\citet{ParsonsSabbatucciTitman2020} and \\citet{AliHirshleifer2020}. "
-             "When a firm has no link in a network (TNIC-3, HQ city, shared analysts, customers, same category), that peer return "
-             "is set to its monthly cross-sectional mean. Columns (1)--(7): "
+             "TNIC-3 rivals; the FF48 and NAICS-4 industry returns are the value-weighted returns of all CRSP stocks in the firm's "
+             "industry excluding the firm; the "
+             "customer return follows \\citet{CohenFrazzini2008}; the HQ-city and shared-analyst returns follow \\citet{ParsonsSabbatucciTitman2020} and \\citet{AliHirshleifer2020}, respectively. "
+             "When a firm has no link in a network (TNIC-3, HQ city, shared analysts, customers, same category, NAICS-4 industry), "
+             "that peer return is set to its monthly cross-sectional mean. For firms with negative book equity, log book-to-market "
+             "is set to zero and the negative-book-equity indicator equals one. Columns (1)--(7): "
              "Fama-MacBeth regressions with Newey-West (four lags) $t$-statistics. Columns (8)--(11): pooled OLS with fixed "
              "effects and standard errors clustered by firm and month. All regressors are winsorized at 1\\% and 99\\% each month.")
     tex = ap.latex_table(hdr, rows, "Customer-overlap peer returns and future returns: regressions", "tab:fm", notes,

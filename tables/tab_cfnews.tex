@@ -3,25 +3,25 @@
 \scriptsize
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccc}
 \toprule
- & \multicolumn{4}{c}{Card-spend growth} & \multicolumn{4}{c}{Next earnings announcement} & Return \\
+ & \multicolumn{4}{c}{Card-spending growth} & \multicolumn{4}{c}{Next earnings announcement} & Return \\
 \cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-10}
  & $t$ & $t+1$ & $t+2$ & Avg. & SUE & Forecast err. & Rev.\ surprise & CAR[$-1,+1$] & $r_{t+1}$ \\
 \midrule
-Customer-overlap peer return (std.) & -1.207 & 0.270 & -0.367 & -0.528 & 0.010 & -0.049 & -0.053 & 0.122 & 0.853* \\
- & (-1.61) & (0.20) & (-0.28) & (-0.54) & (0.38) & (-0.71) & (-1.09) & (0.69) & (1.83) \\
-Peer return $\times$ announces in $t+1$ &  &  &  &  &  &  &  &  & 0.241 \\
- &  &  &  &  &  &  &  &  & (0.74) \\
-Announces in $t+1$ &  &  &  &  &  &  &  &  & 0.741* \\
- &  &  &  &  &  &  &  &  & (1.94) \\
-Own card-spend growth, $t-1$ & 0.706*** & 0.524*** & 0.444*** & 0.554*** &  &  &  &  &  \\
- & (9.86) & (5.51) & (5.08) & (6.68) &  &  &  &  &  \\
-Own return & 0.082* & 0.075 & 0.067 & 0.080 & 0.595** & 0.009* & 0.371 & 0.003 & -0.044 \\
- & (1.89) & (1.08) & (1.14) & (1.56) & (2.47) & (1.65) & (1.02) & (0.22) & (-1.37) \\
+Customer-overlap peer return (std.) & -1.346* & 0.207 & -0.513 & -0.591 & -0.004 & -0.057 & -0.049 & 0.073 & 0.888* \\
+ & (-1.77) & (0.17) & (-0.40) & (-0.68) & (-0.14) & (-0.78) & (-0.99) & (0.42) & (1.79) \\
+Peer return $\times$ announces in $t+1$ &  &  &  &  &  &  &  &  & 0.280 \\
+ &  &  &  &  &  &  &  &  & (0.98) \\
+Announces in $t+1$ &  &  &  &  &  &  &  &  & 0.798** \\
+ &  &  &  &  &  &  &  &  & (2.19) \\
+Own card-spending growth, $t-1$ & 0.704*** & 0.520*** & 0.439*** & 0.550*** &  &  &  &  &  \\
+ & (10.32) & (5.65) & (5.18) & (6.88) &  &  &  &  &  \\
+Own return & 0.084** & 0.085 & 0.085 & 0.088 & 0.562** & 0.009* & 0.379 & 0.001 & -0.050* \\
+ & (2.09) & (1.12) & (1.35) & (1.62) & (2.52) & (1.89) & (1.10) & (0.11) & (-1.78) \\
 \addlinespace
 Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
 Month FE & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
-Observations & 9,283 & 9,227 & 9,194 & 9,026 & 9,995 & 9,324 & 10,000 & 10,085 & 10,899 \\
+Observations & 10,912 & 10,849 & 10,812 & 10,623 & 11,693 & 10,909 & 11,698 & 11,799 & 12,737 \\
 \bottomrule
 \end{tabular*}
-\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel regressions with month fixed effects; standard errors clustered by firm and month ($t$-statistics in parentheses). The peer return is standardized each month. Card-spend growth is the year-over-year log growth of the firm's share of total panel card spending in month $t$, $t+1$, $t+2$ (none of which is public at the end of month $t$) and their average. Coefficients on the peer return and on the announcement variables are multiplied by 100 for card-spend growth, the forecast error, CAR, and the return, so they are in percentage points; SUE and the revenue surprise are in units of their own standard deviation; the coefficients on own lagged growth and own return are not rescaled. SUE is the seasonal change in EPS scaled by its standard deviation over the previous eight quarters; the forecast error is actual minus the last IBES median forecast, scaled by price (\%); the revenue surprise is the seasonal change in sales scaled by its standard deviation; CAR[$-1,+1$] is the market-adjusted announcement return (\%). Announcement variables refer to the first earnings announcement in months $t+1$ to $t+3$. Controls: own return, own-industry, FF48, and same-category returns, log size, log book-to-market, and momentum, all at $t$. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Panel regressions with month fixed effects; standard errors clustered by firm and month ($t$-statistics in parentheses). The peer return is standardized each month. Card-spending growth is the year-over-year log growth of the firm's share of total panel card spending in month $t$, $t+1$, $t+2$ (none of which is public at the end of month $t$) and their average. Coefficients on the peer return and on the announcement variables are multiplied by 100 for card-spending growth, the forecast error, CAR, and the return, so they are in percentage points; SUE and the revenue surprise are in units of their own standard deviations; the coefficients on own lagged growth and own return are not rescaled. SUE is the seasonal change in EPS scaled by its standard deviation over the previous eight quarters; the forecast error is actual minus the last IBES median forecast, scaled by price (\%); the revenue surprise is the seasonal change in sales scaled by its standard deviation; CAR[$-1,+1$] is the market-adjusted announcement return (\%). Announcement variables refer to the first earnings announcement in months $t+1$ to $t+3$. Controls: own return, own-industry peers' and industry returns at the FF48 and NAICS-4 levels, same-category returns, log size, log book-to-market (set to zero for firms with negative book equity, with an indicator for them), and momentum, all at $t$. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
 \end{sidewaystable}

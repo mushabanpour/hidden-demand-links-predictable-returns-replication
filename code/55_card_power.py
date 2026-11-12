@@ -61,7 +61,7 @@ def bounds():
     from importlib import import_module
     M = import_module("13_main_tables"); C = import_module("15_cashflow_news")
     P = C.build(M.load("co")).rename(columns={"g_-1": "g_lag"})
-    ctl = "ret + ind_u + indret + cat_ew + cat_vw + size + bm + mom"
+    ctl = "ret + ind_u + indret + naics_u + naics_ret + cat_ew + cat_vw + size + bm + negbe + mom"
     out = {}
     for y in ["sur_sale", "sue_sd", "g_fwd"]:
         rhs = f"sig_sd + g_lag + {ctl}" if y.startswith("g") else f"sig_sd + {ctl}"

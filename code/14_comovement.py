@@ -90,7 +90,7 @@ def main():
     lab = {"CO_z": "Customer overlap", "RPS_z": "Shared tastes (RPS)", "STORE_z": "Store footprint", "HOME_z": "Customer homes", "INC_z": "Income distribution",
            "RAW_z": "Raw co-shopping", "OVL_z": "Direct overlap", "same_ind": "Same FF48 industry",
            "tnic": "TNIC-3 rivals", "dsize": "$|\\Delta$ log size$|$"}
-    hdr = ["", "\\multicolumn{3}{c}{Card-spend growth}", "\\multicolumn{3}{c}{Daily returns}", "\\multicolumn{3}{c}{Sales growth}"]
+    hdr = ["", "\\multicolumn{3}{c}{Card-spending innovations}", "\\multicolumn{3}{c}{Daily returns}", "\\multicolumn{3}{c}{Sales growth}"]
     rows = []
     for v in ["CO_z", "RPS_z", "STORE_z", "HOME_z", "INC_z", "same_ind", "tnic", "dsize"]:
         rb, rt = [lab[v]], [""]

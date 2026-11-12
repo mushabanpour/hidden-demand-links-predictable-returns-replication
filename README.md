@@ -22,6 +22,7 @@ a firm's customer-overlap peers are used to predict its return.
 | TNIC-3 network, `tnic3_data.zip` | Hoberg-Phillips data library | no: download |
 | 2020 ZCTA-to-county relationship file | U.S. Census Bureau | `data/raw/zcta_county.txt` |
 | CBSA delineation file, July 2023 | U.S. Census Bureau | `data/raw/cbsa_2023.xlsx` |
+| NAICS concordances 1997→2002→2007→2012→2017→2022 and the 2017 and 2022 six-digit code lists | U.S. Census Bureau | `data/raw/naics/` |
 
 The SafeGraph and WRDS data, and every file derived from them at the POI, brand, firm or pair level, can be
 shared only with researchers who hold the corresponding licenses. With those licenses, every file is rebuilt
@@ -48,7 +49,7 @@ Run the scripts in `code/` in this order; each stage skips months it has already
 | 2 | `python3 code/01_extract_month.py all` | one pass over the raw shards → brand-level monthly extracts in `data/extract/` (about 90 minutes). Parses both the pre- and post-May-2024 encodings and keeps one record per POI in the November 2025 release, which ships every POI twice |
 | 3 | `python3 code/02_get_crsp_names.py` | CRSP name histories, monthly stock file, and delistings in `data/raw/` |
 | 4 | `python3 code/03_brand_firm_map.py` | point-in-time brand → PERMNO map; `OVERRIDES` holds the 91 dated ownership spells (acquisitions, divestitures, spin-offs, take-privates, bankruptcies) |
-| 5 | `python3 code/04_get_wrds.py`, then `python3 code/00_aux_inputs.py wrds links` | CCM, Compustat, factors, IBES, and CRSP daily returns for the mapped firms; customer segments, 13F ownership ratios, and segment customers matched to Compustat firms by normalized name |
+| 5 | `python3 code/04_get_wrds.py`, then `python3 code/00_aux_inputs.py wrds links naics` | CCM, Compustat, factors, IBES, and CRSP daily returns for the mapped firms; customer segments, 13F ownership ratios, and segment customers matched to Compustat firms by normalized name; Compustat NAICS codes of every vintage mapped to four-digit NAICS 2022 industries (`data/derived/naics4_2022.parquet`) |
 | 6 | `python3 code/05_build_firm_month.py` | firm-month aggregates |
 | 7 | `python3 code/06_similarity.py`, `python3 code/06b_rps_variants.py` | real-time networks (window t−12 to t−1): shared tastes (RPS), store footprint, customer homes, income, raw co-shopping |
 | 8 | `python3 code/19_overlap_family.py`, `python3 code/26_co_variants.py` | customer overlap and its local-market and firm-specific components; network variants |
@@ -64,6 +65,12 @@ Sample rules: CRSP common stocks (share type NS, security type EQTY, sub-type CO
 Nasdaq; trailing-year panel card spending at least 0.1% of the latest annual sales; price at least $1; at least
 2,000 customer-months in the trailing window. 252 firms, about 180 a month. Formation months July 2019 to
 November 2025; returns August 2019 to December 2025 (77 months).
+
+Regression controls (Table 9, column 5, and every table that uses them) include the own-industry peers' and industry
+returns at both the FF48 and the four-digit NAICS level (Compustat NAICS codes put on the NAICS 2022 vintage), and log
+book-to-market with an indicator for zero or negative book equity, for which log book-to-market is set to zero
+(`13_main_tables.CONTROLS`). The industry-adjusted sort of Table 7, Panel B, and its placebo in Table 17 project the peer
+return on the NAICS-4 and same-category returns (`13_main_tables.ADJ`).
 
 ## Running
 
@@ -82,11 +89,12 @@ minutes on a laptop; the placebo networks use seeds 7, 8, and 9).
 | Table 12 | `55_card_power.py` | `tables/tab_cardpower.tex`; `logs/card_power.json` |
 | Tables 13, 14 | `59_fcap_universe.py` (after step 11b), then `32_mechanism_extra.py` | `tables/tab_analysts.tex`, `tab_ownership.tex`; `logs/fcap_universe.json` |
 | Table 15 | `16_attention.py co` | `tables/tab_visibility.tex`; `logs/visibility.json` |
-| Table 16; Figure 4 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
+| Table 16; Figure 5 | `44_vintage.py`, `47_retail_universe.py`, then `17_robustness.py co` | `tables/tab_robust.tex`; `figures/fig_permutation.pdf`; `logs/permutation.txt` |
 | Table 17 | `56_placebo_ext.py` | `tables/tab_placebo.tex`; `logs/placebo_ext.json` |
 | Table 18 | `42_implementability.py` | `tables/tab_costs.tex`; `logs/costs.json` |
 | Appendix Table 20 | `46_overlap_validation.py` (after step 10b) | `tables/tab_validation.tex`; `logs/validation.json` |
 | Figure 1 | `28_fig_dist.py` | `figures/fig_distributions.pdf` |
+| Figure 4 | `65_fig_byyear.py` | `figures/fig_byyear.pdf`; `logs/byyear_ls.json` |
 | Appendix Table 21 (ownership spells) | `12_tab_overrides.py` | `tables/tab_overrides.tex` |
 | In-text numbers | `40_text_numbers.py`, `27_intramonth.py`, `16`, `29`, `32`, `42`, `46`, `54`, `55`, `56`, `59`, `60`, `64` | `logs/text_numbers.json`, `intramonth.json`, `visibility.json`, `decomp.json`, `geo_category.json`, `mech_extra.json`, `mech_ownership_diff.json`, `costs.json`, `validation.json`, `card_power.json`, `placebo_ext.json`, `fcap_universe.json`, `hq_history.json`, `fundcomove.json` |
 
@@ -106,7 +114,7 @@ quotes (`*.json`, `permutation.txt`).
 | Path | |
 |---|---|
 | `code/` | all scripts, `aplib.py` and `figstyle.py`, and the shell scripts that chain them |
-| `data/raw/` | the two Census files |
+| `data/raw/` | the Census crosswalks and NAICS concordances |
 | `tables/`, `figures/` | the article's tables and figures as produced by the code |
 | `logs/` | run logs and saved results |
 | `requirements.txt` | Python package versions |

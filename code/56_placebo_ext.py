@@ -38,7 +38,7 @@ def build():
         O = O[O.i.isin(U) & O.j.isin(U)]
         Wm = np.zeros((len(U), len(U))); Wm[U.get_indexer(O.i), U.get_indexer(O.j)] = O.A_S.clip(lower=0).fillna(0).values
         x = d.set_index("permno").reindex(U)
-        Z = x[["ind_u", "indret", "cat_ew", "cat_vw"]]
+        Z = x[M.ADJ]                                   # the industry adjustment of Table 7, Panel B
         Z = np.column_stack([np.ones(len(U)), Z.fillna(Z.mean()).values])
         me = x.me.values
         cat = x.cat.fillna("NA").values

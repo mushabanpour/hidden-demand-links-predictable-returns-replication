@@ -5,37 +5,37 @@
 \toprule
  & (1) & (2) & (3) & (4) & (5) & (6) & (7) \\
 \midrule
-Customer overlap (CO) & 0.143** &  &  & 0.134** &  & 0.137** &  \\
- & (2.17) &  &  & (2.01) &  & (2.11) &  \\
-CO: local-market component &  & 0.237*** & 0.149*** &  &  &  &  \\
- &  & (2.62) & (2.65) &  &  &  &  \\
-CO: firm-specific (excess) component &  & -0.062** & -0.060** &  &  &  &  \\
- &  & (-2.31) & (-2.35) &  &  &  &  \\
-Geography-weighted category return &  &  & 0.126 &  &  &  &  \\
- &  &  & (1.09) &  &  &  &  \\
-Same-category store-footprint peers &  &  &  & 0.312 &  &  &  \\
- &  &  &  & (0.71) &  &  &  \\
-Same-category customer-home peers &  &  &  & -0.446 &  &  &  \\
+Customer overlap (CO) & 0.173** &  &  & 0.168** &  & 0.166*** &  \\
+ & (2.55) &  &  & (2.52) &  & (2.59) &  \\
+CO: local-market component &  & 0.227** & 0.116** &  &  &  &  \\
+ &  & (2.20) & (2.04) &  &  &  &  \\
+CO: firm-specific (excess) component &  & -0.034 & -0.028 &  &  &  &  \\
+ &  & (-1.16) & (-1.09) &  &  &  &  \\
+Geography-weighted category return &  &  & 0.206 &  &  &  &  \\
+ &  &  & (1.34) &  &  &  &  \\
+Same-category store-footprint peers &  &  &  & 0.231 &  &  &  \\
+ &  &  &  & (0.72) &  &  &  \\
+Same-category customer-home peers &  &  &  & -0.357 &  &  &  \\
  &  &  &  & (-0.70) &  &  &  \\
-CO: strongest third of links &  &  &  &  & 0.122** &  &  \\
- &  &  &  &  & (2.27) &  &  \\
-CO: middle third &  &  &  &  & 0.088* &  &  \\
- &  &  &  &  & (1.80) &  &  \\
-CO: weakest third &  &  &  &  & 0.036 &  &  \\
- &  &  &  &  & (1.31) &  &  \\
-Shared tastes (RPS) &  &  &  &  &  & 0.241 & 0.243 \\
- &  &  &  &  &  & (1.53) & (1.47) \\
-Customer homes (all firms) &  &  &  &  &  & -1.605 &  \\
- &  &  &  &  &  & (-1.63) &  \\
+CO: strongest third of links &  &  &  &  & 0.153** &  &  \\
+ &  &  &  &  & (2.43) &  &  \\
+CO: middle third &  &  &  &  & 0.088** &  &  \\
+ &  &  &  &  & (2.07) &  &  \\
+CO: weakest third &  &  &  &  & 0.057*** &  &  \\
+ &  &  &  &  & (2.65) &  &  \\
+Shared tastes (RPS) &  &  &  &  &  & 0.252* & 0.277* \\
+ &  &  &  &  &  & (1.72) & (1.75) \\
+Customer homes (all firms) &  &  &  &  &  & -1.288 &  \\
+ &  &  &  &  &  & (-1.40) &  \\
 \addlinespace
-Local-market $-$ firm-specific &  & 0.299*** &  &  &  &  &  \\
- &  & (2.73) &  &  &  &  &  \\
-Strongest $-$ weakest third &  &  &  &  & 0.086 &  &  \\
- &  &  &  &  & (1.21) &  &  \\
+Local-market $-$ firm-specific &  & 0.261** &  &  &  &  &  \\
+ &  & (2.08) &  &  &  &  &  \\
+Strongest $-$ weakest third &  &  &  &  & 0.096 &  &  \\
+ &  &  &  &  & (1.40) &  &  \\
 \addlinespace
 Controls & Yes & Yes & Yes & Yes & Yes & Yes & Yes \\
-Observations & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 & 10,689 \\
+Observations & 12,527 & 12,527 & 12,527 & 12,527 & 12,527 & 12,527 & 12,527 \\
 \bottomrule
 \end{tabular*}
-\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Fama-MacBeth regressions of month-$t+1$ returns on month-$t$ peer returns built from alternative networks, with the controls of Table~\ref{tab:fm}, column (5). The local-market component weights same-category peers by the share of the focal firm's customers that would also shop at the peer if they behaved like other same-category shoppers in the focal firm's local markets (counties); the firm-specific component weights by the excess of actual over predicted overlap (positive part). The geography-weighted category return weights each same-category peer by its share of the category's customers in each county, averaged over the focal firm's counties with the focal firm's own county customer shares; it uses only where firms' customers shop, not who shops at both. Same-category store-footprint (customer-home) peers weight same-category firms by the cosine similarity of store counts across counties (customer counts across home cities). Link-strength terciles split each firm's customer-overlap peers by the size of the overlap. Shared-taste returns weight all sample firms by RPS. All columns use the same firm-months: firms with at least one customer-overlap peer and all controls. When a firm has no peer in a component or link-strength third, that peer return is set to its monthly cross-sectional mean. The difference rows report the time-series average of the monthly difference between the two slopes in column (2) and between the strongest- and weakest-third slopes in column (5). Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
+\par\vspace{4pt}\begin{minipage}{\linewidth}\scriptsize \emph{Notes:} Fama-MacBeth regressions of month-$t+1$ returns on month-$t$ peer returns built from alternative networks, with the controls of Table~\ref{tab:fm}, column (5). The local-market component weights same-category peers by the share of the focal firm's customers who would also shop at the peer if they behaved like other same-category shoppers in the focal firm's local markets (counties); the firm-specific component weights by the excess of actual over predicted overlap (positive part). The geography-weighted category return weights each same-category peer by its share of the category's customers in each county, averaged over the focal firm's counties with the focal firm's own county customer shares; it uses only where firms' customers shop, not who shops at both. Same-category store-footprint (customer-home) peers weight same-category firms by the cosine similarity of store counts across counties (customer counts across home cities). Link-strength thirds split each firm's customer-overlap peers by the size of the overlap. Shared-taste returns weight all sample firms by RPS, and the customer-home return in column (6) by \textsc{Home}. All columns use the same firm-months: firms with at least one customer-overlap peer and all controls. When a firm has no peer in a component or link-strength third, that peer return is set to its monthly cross-sectional mean. The difference rows report the time-series average of the monthly difference between the two slopes in column (2) and between the strongest- and weakest-third slopes in column (5). Newey-West $t$-statistics (four lags) in parentheses. *, **, and *** denote significance at the 10\%, 5\%, and 1\% levels.\end{minipage}
 \end{table}

@@ -6,6 +6,11 @@
     cbsa_2023.xlsx   Census CBSA delineation file, July 2023 (list1_2023.xlsx)
     -> zip_county.parquet   each ZCTA assigned to the county with the largest land-area overlap
     -> county_cbsa.parquet  county FIPS -> CBSA code, title, type
+  NAICS concordances (Census, downloaded by hand into data/raw/naics from census.gov/naics/concordances and
+  census.gov/naics/2022NAICS, 2017NAICS): 6-digit_2022_Codes.xlsx, 6-digit_2017_Codes.xlsx, 2017_to_2022_NAICS.xlsx,
+  2012_to_2017_NAICS.xlsx, 2007_to_2012_NAICS.xls, 2002_to_2007_NAICS.xls, 1997_NAICS_to_2002_NAICS.xls
+    -> data/derived/naics4_2022.parquet  every Compustat NAICS code (comp_company, any vintage and length) mapped to
+                             its 4-digit NAICS 2022 industry
   WRDS (user from the WRDS_USER environment variable; password from ~/.pgpass):
     -> seg_customer.parquet  Compustat customer segments (company customers), source dates 2016+
     -> inst_own_13f.parquet  13F institutional holdings by quarter for the PERMNOs in
@@ -13,7 +18,7 @@
   name matching (after the WRDS step):
     -> data/derived/cust_supplier_links.parquet  segment customers matched to Compustat gvkeys by
                              normalized company name (plus a short list of aliases)
-Usage: python3 00_aux_inputs.py [crosswalks] [wrds] [links] [OUTDIR]
+Usage: python3 00_aux_inputs.py [crosswalks] [wrds] [links] [naics] [OUTDIR]
 """
 import os, sys
 import pandas as pd
@@ -76,6 +81,58 @@ def links(out):
     print("links", len(m), m.cust_gvkey.nunique(), m.gvkey.nunique())
 
 
+def naics(out):
+    """Compustat reports each firm's current NAICS code, but firms that left Compustat, or were not reclassified, keep
+    codes of older vintages (1997-2017), so the same industry can carry different codes (Verizon 517312, NAICS 2017; AT&T
+    and T-Mobile 517112, NAICS 2022). Each 6-digit code is read in the newest vintage in which it exists and carried
+    forward through the Census concordances to NAICS 2022. A code is remapped only when all of its pieces fall in one 4-digit
+    NAICS 2022 industry; a code that splits across several (e.g. 454110, electronic shopping) keeps its own first four
+    digits. Codes with 4 or 5 digits are mapped through the 6-digit codes that begin with them, under the same rule; codes with fewer than 4 digits, or found in no vintage, get no 4-digit industry."""
+    D = f"{RAW}/naics"
+    num = lambda x: pd.to_numeric(x, errors="coerce")
+    def conc(f, a=0, b=2):
+        x = pd.read_excel(f"{D}/{f}", header=None).iloc[:, [a, b]]
+        x.columns = ["old", "new"]; x = x.apply(num).dropna().astype(int)
+        return x[(x.old >= 100000) & (x.new >= 100000)]
+    steps = [("2017", conc("2017_to_2022_NAICS.xlsx")), ("2012", conc("2012_to_2017_NAICS.xlsx")),
+             ("2007", conc("2007_to_2012_NAICS.xls")), ("2002", conc("2002_to_2007_NAICS.xls")),
+             ("1997", conc("1997_NAICS_to_2002_NAICS.xls", a=1, b=0))]              # this file lists 2002 first
+    v22 = set(num(pd.read_excel(f"{D}/6-digit_2022_Codes.xlsx", header=None).iloc[:, 0]).dropna().astype(int))
+    nxt = [k.groupby("old").new.apply(list).to_dict() for _, k in steps]       # vintage v -> v+1, newest first
+    def to22(c, start):
+        cur = [c]
+        for d in nxt[start::-1]:                                               # forward from vintage `start` to 2022
+            cur = [t for x in cur for t in d.get(x, [])]
+        return cur
+    def four(c):
+        if c in v22:
+            return str(c)[:4], "2022"
+        for i, (v, _) in enumerate(steps):
+            if c in nxt[i]:
+                t = {str(x)[:4] for x in to22(c, i)}
+                return (t.pop() if len(t) == 1 else str(c)[:4]), v
+        return None, "none"
+    allc = {v: set(d) for (v, _), d in zip(steps, nxt)} | {"2022": v22}
+    def prefix(p):
+        if any(str(c).startswith(p) for c in v22):
+            return p[:4], "2022"
+        for v, _ in steps:
+            cs = [c for c in allc[v] if str(c).startswith(p)]
+            if cs:
+                t = {four(c)[0] for c in cs}
+                return (t.pop() if len(t) == 1 and None not in t else p[:4]), v
+        return None, "none"
+    co = pd.read_parquet(f"{RAW}/comp_company.parquet", columns=["naics"]).naics.dropna().astype(str).str.strip()
+    rows = []
+    for code in sorted(set(co)):
+        n4, v = four(int(code)) if len(code) == 6 and code.isdigit() else prefix(code) if len(code) in (4, 5) and code.isdigit() else (None, "short")
+        rows.append((code, n4, v, code[:4] if len(code) >= 4 else None))
+    m = pd.DataFrame(rows, columns=["naics", "naics4_2022", "vintage", "naics4_raw"])
+    dest = out if out != RAW else f"{R}/data/derived"
+    m.to_parquet(f"{dest}/naics4_2022.parquet", index=False)
+    print("naics", len(m), m.vintage.value_counts().to_dict(), "4-digit changed:", int((m.naics4_2022 != m.naics4_raw).sum()))
+
+
 if __name__ == "__main__":
     out = next((a for a in sys.argv[1:] if os.path.isdir(a)), RAW)
     if "crosswalks" in sys.argv or len(sys.argv) == 1:
@@ -84,3 +141,5 @@ if __name__ == "__main__":
         wrds(out)
     if "links" in sys.argv or len(sys.argv) == 1:
         links(out)
+    if "naics" in sys.argv or len(sys.argv) == 1:
+        naics(out)

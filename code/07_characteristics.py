@@ -63,24 +63,7 @@ def main():
     msf = msf.drop(columns=["S", "Wt", "N", "rw"])
 
     # ---------- Compustat annual characteristics (public 6 months after FYE) ----------
-    a = pd.read_parquet(f"{RAW}/comp_funda.parquet")
-    a["datadate"] = pd.to_datetime(a.datadate)
-    ps = a.pstkrv.fillna(a.pstkl).fillna(a.pstk).fillna(0)
-    se = a.seq.fillna(a.ceq + a.pstk.fillna(0)).fillna(a["at"] - a["lt"])
-    a["be"] = se + a.txditc.fillna(0) - ps
-    a["gpa"] = (a.revt - a.cogs) / a["at"]
-    a = a.sort_values(["gvkey", "datadate"])
-    a["ag"] = a.groupby("gvkey")["at"].pct_change(fill_method=None)
-    a["ik"] = a.capx / a.ppent.where(a.ppent > 0)
-    a["sale_ann"] = a.sale
-    l = pd.read_parquet(f"{RAW}/ccm_link.parquet")
-    l["linkdt"] = pd.to_datetime(l.linkdt); l["linkenddt"] = pd.to_datetime(l.linkenddt).fillna(pd.Timestamp("2099-12-31"))
-    a = a.merge(l[["gvkey", "permno", "linkdt", "linkenddt"]], on="gvkey")
-    a = a[(a.datadate >= a.linkdt) & (a.datadate <= a.linkenddt)].copy()
-    a["permno"] = a.permno.astype("int64")
-    a["avail"] = (a.datadate + pd.offsets.MonthEnd(6)).dt.to_period("M")
-    a = a.sort_values(["permno", "avail", "datadate"]).drop_duplicates(["permno", "avail"], keep="last")
-    acc = a[["permno", "avail", "be", "gpa", "ag", "ik", "sale_ann", "gvkey", "datadate"]].rename(columns={"avail": "month"})
+    acc = annual_accounting()
     msf = msf.sort_values(["month", "permno"])
     acc = acc.sort_values(["month", "permno"])
     msf = merge_asof_period(msf, acc)
@@ -104,6 +87,29 @@ def main():
             "indret", "bm", "gpa", "ag", "ik", "sale_ann", "gvkey", "numest", "wlag"]
     msf[keep].to_parquet(f"{R}/data/derived/stock_month.parquet", index=False)
     print("stock_month", msf.shape, msf.month.min(), msf.month.max())
+
+
+def annual_accounting():
+    """Compustat annual book equity, profitability, asset growth, investment, and sales by PERMNO and the month in which
+    they become public (six months after fiscal year-end); also used by 13_main_tables.py for the negative-book-equity flag."""
+    a = pd.read_parquet(f"{RAW}/comp_funda.parquet")
+    a["datadate"] = pd.to_datetime(a.datadate)
+    ps = a.pstkrv.fillna(a.pstkl).fillna(a.pstk).fillna(0)
+    se = a.seq.fillna(a.ceq + a.pstk.fillna(0)).fillna(a["at"] - a["lt"])
+    a["be"] = se + a.txditc.fillna(0) - ps
+    a["gpa"] = (a.revt - a.cogs) / a["at"]
+    a = a.sort_values(["gvkey", "datadate"])
+    a["ag"] = a.groupby("gvkey")["at"].pct_change(fill_method=None)
+    a["ik"] = a.capx / a.ppent.where(a.ppent > 0)
+    a["sale_ann"] = a.sale
+    l = pd.read_parquet(f"{RAW}/ccm_link.parquet")
+    l["linkdt"] = pd.to_datetime(l.linkdt); l["linkenddt"] = pd.to_datetime(l.linkenddt).fillna(pd.Timestamp("2099-12-31"))
+    a = a.merge(l[["gvkey", "permno", "linkdt", "linkenddt"]], on="gvkey")
+    a = a[(a.datadate >= a.linkdt) & (a.datadate <= a.linkenddt)].copy()
+    a["permno"] = a.permno.astype("int64")
+    a["avail"] = (a.datadate + pd.offsets.MonthEnd(6)).dt.to_period("M")
+    a = a.sort_values(["permno", "avail", "datadate"]).drop_duplicates(["permno", "avail"], keep="last")
+    return a[["permno", "avail", "be", "gpa", "ag", "ik", "sale_ann", "gvkey", "datadate"]].rename(columns={"avail": "month"})
 
 
 def merge_asof_period(left, right):

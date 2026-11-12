@@ -15,7 +15,7 @@ d["lr"] = np.log1p(d.dlyret.clip(lower=-0.99))
 seg = d.assign(part=np.select([d.k <= 1, d.k <= 5], ["d1", "w1"], "rest")).groupby(["permno", "month", "part"]).lr.sum().unstack().apply(np.expm1)
 seg = seg.reset_index(); seg["month"] = seg.month - 1          # align with formation month t
 P = P.merge(seg, on=["permno", "month"], how="left")
-CTL = ["ret", "ind_u", "indret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret", "size", "bm", "gpa", "ik", "mom"]
+CTL = M.CONTROLS                                  # the baseline controls of Table 9, column (5)
 out = {}
 for y in ["d1", "w1", "rest", "ret_f1"]:
     r, *_ = ap.fama_macbeth(P, y, ["sig"] + CTL)

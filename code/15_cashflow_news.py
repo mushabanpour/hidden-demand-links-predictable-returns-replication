@@ -53,7 +53,7 @@ def build(P):
 def main():
     P = build(M.load(SIG))
     P = P.rename(columns={"g_-1": "g_lag"})
-    ctl = "ret + ind_u + indret + cat_ew + cat_vw + size + bm + mom"
+    ctl = "ret + ind_u + indret + naics_u + naics_ret + cat_ew + cat_vw + size + bm + negbe + mom"
     specs = [("g_0", f"sig_sd + g_lag + {ctl}"), ("g_1", f"sig_sd + g_lag + {ctl}"),
              ("g_2", f"sig_sd + g_lag + {ctl}"), ("g_fwd", f"sig_sd + g_lag + {ctl}"),
              ("sue_sd", f"sig_sd + {ctl}"), ("fe_p", f"sig_sd + {ctl}"), ("sur_sale", f"sig_sd + {ctl}"),
@@ -62,9 +62,9 @@ def main():
     for y, rhs in specs:
         D = P.dropna(subset=[y])
         fits.append(pf.feols(f"{y} ~ {rhs} | mid", data=D, vcov={"CRV1": "permno + mid"}))
-    lab = {"sig_sd": "Customer-overlap peer return (std.)", "g_lag": "Own card-spend growth, $t-1$", "ea_f1": "Announces in $t+1$",
+    lab = {"sig_sd": "Customer-overlap peer return (std.)", "g_lag": "Own card-spending growth, $t-1$", "ea_f1": "Announces in $t+1$",
            "sig_x_ea": "Peer return $\\times$ announces in $t+1$", "ret": "Own return"}
-    hdr = [["", "\\multicolumn{4}{c}{Card-spend growth}", "\\multicolumn{4}{c}{Next earnings announcement}", "Return"],
+    hdr = [["", "\\multicolumn{4}{c}{Card-spending growth}", "\\multicolumn{4}{c}{Next earnings announcement}", "Return"],
            "\\cmidrule(lr){2-5}\\cmidrule(lr){6-9}\\cmidrule(lr){10-10}",
            ["", "$t$", "$t+1$", "$t+2$", "Avg.", "SUE", "Forecast err.", "Rev.\\ surprise", "CAR[$-1,+1$]", "$r_{t+1}$"]]
     rows = []
@@ -84,17 +84,18 @@ def main():
     rows.append(["Month FE"] + ["Yes"] * len(fits))
     rows.append(["Observations"] + [f"{m._N:,}" for m in fits])
     notes = ("Panel regressions with month fixed effects; standard errors clustered by firm and month ($t$-statistics in "
-             "parentheses). The peer return is standardized each month. Card-spend growth is the year-over-year log growth of "
+             "parentheses). The peer return is standardized each month. Card-spending growth is the year-over-year log growth of "
              "the firm's share of total panel card spending in month $t$, $t+1$, $t+2$ (none of which is public at the end of "
              "month $t$) and their average. Coefficients on the peer return and on the announcement variables are multiplied by 100 "
-             "for card-spend growth, the forecast error, CAR, and the return, so they are in percentage points; SUE and the revenue "
-             "surprise are in units of their own standard deviation; the coefficients on own lagged growth and own return are not "
+             "for card-spending growth, the forecast error, CAR, and the return, so they are in percentage points; SUE and the revenue "
+             "surprise are in units of their own standard deviations; the coefficients on own lagged growth and own return are not "
              "rescaled. SUE is the seasonal change in EPS scaled by its "
              "standard deviation over the previous eight quarters; the forecast error is actual minus the last IBES median "
              "forecast, scaled by price (\\%); the revenue surprise is the seasonal change in sales scaled by its standard deviation; "
              "CAR[$-1,+1$] is the market-adjusted announcement return (\\%). Announcement variables refer to the first earnings "
-             "announcement in months $t+1$ to $t+3$. Controls: own return, own-industry, FF48, and same-category returns, log size, "
-             "log book-to-market, and momentum, all at $t$.")
+             "announcement in months $t+1$ to $t+3$. Controls: own return, own-industry peers' and industry returns at the FF48 and "
+             "NAICS-4 levels, same-category returns, log size, log book-to-market (set to zero for firms with negative book equity, with an indicator for them), and "
+             "momentum, all at $t$.")
     tex = ap.latex_table(hdr, rows, "Customer-overlap peer returns and the focal firm's cash-flow news", "tab:cfnews", notes,
                          size="\\scriptsize", side=True)
     open(f"{R}/tables/tab_cfnews.tex", "w").write(tex)

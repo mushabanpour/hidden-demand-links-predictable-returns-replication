@@ -1,4 +1,4 @@
-\begin{longtable}{p{5.2cm}lrll}
+\begin{longtable}{>{\raggedright\arraybackslash}p{5.2cm}lrll}
 \caption{Point-in-time brand ownership spells}\label{tab:overrides}\\
 \toprule Brand & Owner & PERMNO & From & To \\ \midrule\endfirsthead
 \toprule Brand & Owner & PERMNO & From & To \\ \midrule\endhead
@@ -94,5 +94,5 @@ Victoria's Secret & VSCO & 21609 & 2021-08-03 & end \\
 White House Black Market & CHS & 78963 & start & 2024-01-04 \\
 World Market & BBBY & 77659 & start & 2021-06-14 \\
 \bottomrule
-\multicolumn{5}{p{14.5cm}}{\footnotesize \emph{Notes:} SafeGraph's Brand Info file reports current ownership. For every brand whose ownership changed between January 2019 and May 2026 (Section~\ref{sec:data}), the table lists, in alphabetical order of brand, the dated ownership spells used to assign the brand to a CRSP PERMNO. Spells marked ``not U.S.-listed'' (brands sold to a private or foreign owner) are excluded. All other brands are linked to the PERMNO that most recently traded under the ticker reported by SafeGraph; ``start'' and ``end'' denote the sample boundaries.}\\
+\multicolumn{5}{p{14.5cm}}{\footnotesize \emph{Notes:} SafeGraph's Brand Info file reports current ownership. For every brand whose ownership changed between January 2019 and May 2026, or whose ticker in that file is missing or wrong (Section~\ref{sec:data}), the table lists, in alphabetical order of brand, the dated ownership spells used to assign the brand to a CRSP PERMNO. Spells marked ``not U.S.-listed'' (brands sold to or held by a private or foreign owner) are excluded. All other brands are linked to the PERMNO that most recently traded under the ticker reported by SafeGraph; ``start'' and ``end'' denote the sample boundaries.}\\
 \end{longtable}

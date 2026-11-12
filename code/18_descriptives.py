@@ -111,11 +111,11 @@ def networks(P):
     rows.append("\\multicolumn{5}{l}{\\emph{Panel B: Same-category pairs by customer-overlap tercile}} \\\\")
     rows.append(["", "Unlinked", "Low", "Mid", "High"]); rows.append("\\midrule")
     for k in ["CO", "RPS", "STORE", "HOME", "INC", "same_ind", "tnic"]:
-        rows.append([lab[k]] + [f"{TT.loc[q, k]:.2f}" for q in ["Unlinked", "Low", "Mid", "High"]])
+        rows.append([lab[k]] + [f"{TT.loc[q, k]:.3f}" if k == "CO" else f"{TT.loc[q, k]:.2f}" for q in ["Unlinked", "Low", "Mid", "High"]])
     rows.append(["Pairs per month"] + [f"{TT.loc[q, 'n']:.0f}" for q in ["Unlinked", "Low", "Mid", "High"]])
     notes = ("Pairs of sample firms in each formation month. Customer overlap is the share of customers two firms have in "
              "common, as a fraction (Section~\\ref{sec:co}); it is measured from SafeGraph's same-category cross-shopping lists. "
-             "Same-category pairs are pairs of firms with the same category (the most frequent category of their stores over months "
+             "Same-category pairs are pairs of firms with the same category (their most frequent monthly category over months "
              "$t-12$ to $t-1$). Panel A reports the "
              "time-series average of the monthly cross-sectional correlation between each network and customer overlap among "
              "same-category pairs (first column), and between each network and the customer-home network among all pairs (second "
@@ -144,7 +144,7 @@ def examples(t="2023-12", focal=("CMG", "SHAK", "DG", "ULTA", "LULU", "TSCO", "K
              f"store-footprint overlap, in the networks formed at the end of {t} (card data for {pd.Period(t,'M')-12} to {pd.Period(t,'M')-1}).")
     open(f"{R}/tables/tab_examples.tex", "w").write(ap.latex_table([["Firm", "Customer overlap", "Shared tastes (RPS)", "Store footprint"]], rows,
                                                                    "Nearest neighbors under three networks", "tab:examples",
-                                                                   notes, colspec="lp{4.3cm}p{4.3cm}p{4.3cm}"))
+                                                                   notes, colspec="l>{\\raggedright\\arraybackslash}p{4.3cm}>{\\raggedright\\arraybackslash}p{4.3cm}>{\\raggedright\\arraybackslash}p{4.3cm}"))
 
 
 def persistence():

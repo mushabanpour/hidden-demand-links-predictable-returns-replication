@@ -135,7 +135,7 @@ def main():
     P["mid"] = P.month.astype(str)
     pr, fm, X, Pn = ownership(P)
     P = analysts(P); P = long_horizon(P)
-    ctl = "ret + ind_u + indret + cat_ew + cat_vw + size + bm + mom"
+    ctl = "ret + ind_u + indret + naics_u + naics_ret + cat_ew + cat_vw + size + bm + negbe + mom"
     fits = {}
     for y in ["rev_1", "rev_2"]:
         D = P.dropna(subset=[y, "rev_lag"])
@@ -208,15 +208,15 @@ def tables(res, pr, fm, fits):
     rows.append("\\addlinespace")
     rows.append(["Controls"] + ["Yes"] * 4)
     rows.append(["Observations"] + [f"{res['fm_n'][k]:,}" for k in ["base", "ctl_fcap", "split", "ctl_ucap"]])
-    notes = ("Panel A: pair-month regressions for pairs of sample firms in the same SafeGraph category of the \\citet{AntonPolk2014} "
+    notes = ("Panel A: pair-month regressions, for pairs of sample firms in the same SafeGraph category, of the \\citet{AntonPolk2014} "
              "measure of common ownership---the value of both firms' shares held by 13F institutions that hold both, divided by the "
              "two firms' combined market capitalization---from the latest 13F quarter available at the end of month $t$, on "
              "standardized customer overlap or an indicator for positive overlap. Columns (3) and (4) exclude, each quarter, the ten "
              "institutions with the largest holdings in the sample firms. Controls: same FF48 industry, the absolute difference in "
              "log size, and the sum of the two firms' institutional ownership; standard errors clustered by both firms. Panel B: "
              "Fama-MacBeth regressions with the controls of Table~\\ref{tab:fm}, column (5). The common-ownership peer return weights "
-             "peers by common ownership (excluding the ten largest holders): other sample firms in column (2), and every CRSP common "
-             "stock held by at least one of the firm's 13F holders in column (4) \\citep{AntonPolk2014,Ying2024}. The sample is firms with at least one customer-overlap "
+             "peers by common ownership (excluding the ten largest holders): other sample firms and other same-category firms in column (2), and every CRSP common "
+             "stock held by at least one of the firm's 13F holders in column (4) \\citep{AntonPolk2014,Ying2024}. The sample consists of firms with at least one customer-overlap "
              "peer; a peer return that is undefined for a firm (no commonly owned peer, or an empty high or low subset) is set to its "
              "monthly cross-sectional mean. Column (3) splits each firm's overlap peers at the monthly "
              "median of common ownership among overlap-linked pairs; ``High $-$ low'' is the average monthly difference of the two "

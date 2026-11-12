@@ -14,7 +14,7 @@ from importlib import import_module
 M = import_module("13_main_tables")
 R = ap.R
 SIG = sys.argv[1] if len(sys.argv) > 1 else "co"
-CTL = ["ret", "ind_u", "indret", "cat_ew", "cat_vw", "STORE_pos", "tnic_ret", "size", "bm", "gpa", "ik", "mom"]
+CTL = M.CONTROLS                                  # the baseline controls of Table 9, column (5)
 Fn = M.Fn
 
 
@@ -121,11 +121,11 @@ def main():
     specs = [("Baseline", P, "sig", "ret_f1"),
              ("Excluding January 2021", P[P.month != pd.Period("2020-12", "M")], "sig", "ret_f1"),
              ("Excluding GME, AMC, BBBY, EXPR (all months)", P[~P.tic.isin(["GME", "AMC", "BBBY", "EXPR"])], "sig", "ret_f1"),
-             ("Returns winsorized at 1\\%/99\\% each month", P, "sig", "ret_w"),
+             ("Next-month returns winsorized at 1\\%/99\\% each month", P, "sig", "ret_w"),
              ("Excluding return months in 2020", P[(P.month + 1).dt.year != 2020], "sig", "ret_f1"),
              ("Excluding formation months in 2020", P[P.month.dt.year != 2020], "sig", "ret_f1"),
-             ("First half (formation 2019:07--2022:06)", P[P.month <= pd.Period("2022-06", "M")], "sig", "ret_f1"),
-             ("Second half (formation 2022:07--2025:11)", P[P.month > pd.Period("2022-06", "M")], "sig", "ret_f1"),
+             ("First half (formation July 2019--June 2022)", P[P.month <= pd.Period("2022-06", "M")], "sig", "ret_f1"),
+             ("Second half (formation July 2022--November 2025)", P[P.month > pd.Period("2022-06", "M")], "sig", "ret_f1"),
              ("Excluding networks spanning the May 2024 panel change", P[~P.window_spans_2024_05.fillna(False).astype(bool)],
               "sig", "ret_f1"),
              ("Price $\\geq$ \\$5", P[P.prc >= 5], "sig", "ret_f1"),
@@ -163,7 +163,7 @@ def main():
              "controls of Table~\\ref{tab:fm}, column (5). Rows 2--14 change the sample, the return, or the test assets (rows 2 and 3 drop the month of January 2021 and the "
              "four meme stocks GameStop, AMC, Bed Bath \\& Beyond, and Express; the May 2024 "
              "row drops the twelve formation months whose network window includes May 2024, when SafeGraph changed its panel and "
-             "file format; the retail and restaurant row keeps only firms whose month-$t$ SafeGraph category is a retail-store "
+             "file format; the retail and restaurant row keeps only firms whose month-$t$ SafeGraph category is either a retail-store "
              "category of NAICS 44--45 other than gasoline stations or a restaurant or bar category of NAICS 722, as focal firms "
              "and as peers); the last nine rows re-estimate customer overlap with the stated change (equal weights on all overlapping "
              "peers; the share of $i$'s customers who shop at $j$ instead of the symmetric average; a 6- or 24-month window; a "

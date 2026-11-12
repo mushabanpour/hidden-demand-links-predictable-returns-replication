@@ -91,9 +91,9 @@
  "corr_CO_POI": 0.9965321842901748,
  "corr_CO_UB": 0.8268273111511755
 }
-CO_REBUILT {'ew': (np.float64(3.009), np.float64(3.089)), 'vw': (np.float64(2.08), np.float64(3.323)), 'fm': (np.float64(0.143), np.float64(2.165)), 'T': 77}
-CO_MAX {'ew': (np.float64(2.734), np.float64(2.824)), 'vw': (np.float64(1.854), np.float64(2.987)), 'fm': (np.float64(0.117), np.float64(1.908)), 'T': 77}
-CO_SUM {'ew': (np.float64(2.919), np.float64(3.041)), 'vw': (np.float64(1.987), np.float64(3.194)), 'fm': (np.float64(0.145), np.float64(2.185)), 'T': 77}
-CO_POI {'ew': (np.float64(2.899), np.float64(2.964)), 'vw': (np.float64(2.028), np.float64(3.445)), 'fm': (np.float64(0.148), np.float64(2.124)), 'T': 77}
-CO_W1 {'ew': (np.float64(2.75), np.float64(2.898)), 'vw': (np.float64(1.666), np.float64(2.841)), 'fm': (np.float64(0.075), np.float64(1.338)), 'T': 77}
-CO_UB {'ew': (np.float64(2.606), np.float64(2.454)), 'vw': (np.float64(1.861), np.float64(2.78)), 'fm': (np.float64(0.162), np.float64(2.079)), 'T': 77}
+CO_REBUILT {'ew': (np.float64(3.009), np.float64(3.089)), 'vw': (np.float64(2.08), np.float64(3.323)), 'fm': (np.float64(0.173), np.float64(2.549)), 'T': 77}
+CO_MAX {'ew': (np.float64(2.734), np.float64(2.824)), 'vw': (np.float64(1.854), np.float64(2.987)), 'fm': (np.float64(0.141), np.float64(2.362)), 'T': 77}
+CO_SUM {'ew': (np.float64(2.919), np.float64(3.041)), 'vw': (np.float64(1.987), np.float64(3.194)), 'fm': (np.float64(0.175), np.float64(2.557)), 'T': 77}
+CO_POI {'ew': (np.float64(2.899), np.float64(2.964)), 'vw': (np.float64(2.028), np.float64(3.445)), 'fm': (np.float64(0.179), np.float64(2.555)), 'T': 77}
+CO_W1 {'ew': (np.float64(2.75), np.float64(2.898)), 'vw': (np.float64(1.666), np.float64(2.841)), 'fm': (np.float64(0.102), np.float64(1.99)), 'T': 77}
+CO_UB {'ew': (np.float64(2.606), np.float64(2.454)), 'vw': (np.float64(1.861), np.float64(2.78)), 'fm': (np.float64(0.204), np.float64(2.398)), 'T': 77}
