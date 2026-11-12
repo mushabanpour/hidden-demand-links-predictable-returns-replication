@@ -35,11 +35,10 @@ ADJ = ["naics_u", "naics_ret", "cat_ew", "cat_vw"]
 def add_naics4(P):
     """4-digit NAICS (Compustat) industry returns, built like the FF48 ones: naics_u is the equal-weighted return of the other
     sample firms in the firm's NAICS-4 industry, naics_ret the value-weighted (lagged market cap) return of all CRSP common
-    stocks in it excluding the firm (at least three stocks). Compustat NAICS codes are first put on the NAICS 2022 vintage."""
+    stocks in it excluding the firm (at least three stocks)."""
     comp = pd.read_parquet(f"{R}/data/raw/comp_company.parquet", columns=["gvkey", "naics"]).drop_duplicates("gvkey")
-    h = pd.read_parquet(f"{R}/data/derived/naics4_2022.parquet").set_index("naics").naics4_2022   # one vintage (00_aux_inputs naics)
-    comp = comp.set_index("gvkey").naics.astype(str).str.strip().map(h)
-    n4 = lambda g: g.map(comp)
+    comp = comp.set_index("gvkey").naics
+    n4 = lambda g: g.map(comp).astype("string").str[:4].where(lambda s: s.str.len() == 4)
     sm = pd.read_parquet(f"{R}/data/derived/stock_month.parquet", columns=["permno", "month", "ret", "wlag", "gvkey"])
     sm["n4"] = n4(sm.gvkey); sm["rw"] = sm.ret * sm.wlag
     tot = sm.dropna(subset=["n4"]).groupby(["month", "n4"]).agg(S=("rw", "sum"), Wt=("wlag", "sum"), N=("ret", "count")).reset_index()

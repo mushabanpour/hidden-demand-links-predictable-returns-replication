@@ -31,10 +31,10 @@
 sort ucap_ret {'ew': (np.float64(1.73), np.float64(1.5)), 'vw': (np.float64(2.2), np.float64(1.9))}
 sort ucapx_ret {'ew': (np.float64(1.08), np.float64(0.86)), 'vw': (np.float64(2.29), np.float64(1.7))}
 sort ucap_out {'ew': (np.float64(1.69), np.float64(1.41)), 'vw': (np.float64(1.9), np.float64(1.51))}
-fm co {'sig': (np.float64(0.173), np.float64(2.55))}
-fm ucap {'ucap_ret': (np.float64(1.315), np.float64(0.77))}
-fm ucapx {'ucapx_ret': (np.float64(2.27), np.float64(1.27))}
-fm co_ucap {'sig': (np.float64(0.177), np.float64(2.81)), 'ucap_ret': (np.float64(1.259), np.float64(0.73))}
-fm co_ucapx {'sig': (np.float64(0.166), np.float64(2.7)), 'ucapx_ret': (np.float64(2.187), np.float64(1.25))}
-fm co_ucap_out {'sig': (np.float64(0.178), np.float64(2.8)), 'ucap_out': (np.float64(1.611), np.float64(0.99))}
-fm co_all_own {'sig': (np.float64(0.179), np.float64(2.78)), 'ucap_ret': (np.float64(2.966), np.float64(1.55)), 'fcap_ret': (np.float64(-0.655), np.float64(-0.45)), 'fcap_ret_cat': (np.float64(0.163), np.float64(1.19))}
+fm co {'sig': (np.float64(0.161), np.float64(2.68))}
+fm ucap {'ucap_ret': (np.float64(1.417), np.float64(0.84))}
+fm ucapx {'ucapx_ret': (np.float64(2.253), np.float64(1.29))}
+fm co_ucap {'sig': (np.float64(0.166), np.float64(2.98)), 'ucap_ret': (np.float64(1.351), np.float64(0.79))}
+fm co_ucapx {'sig': (np.float64(0.155), np.float64(2.85)), 'ucapx_ret': (np.float64(2.157), np.float64(1.25))}
+fm co_ucap_out {'sig': (np.float64(0.167), np.float64(2.97)), 'ucap_out': (np.float64(1.699), np.float64(1.06))}
+fm co_all_own {'sig': (np.float64(0.169), np.float64(2.92)), 'ucap_ret': (np.float64(3.094), np.float64(1.62)), 'fcap_ret': (np.float64(-0.9), np.float64(-0.56)), 'fcap_ret_cat': (np.float64(0.169), np.float64(1.19))}

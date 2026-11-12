@@ -22,7 +22,6 @@ a firm's customer-overlap peers are used to predict its return.
 | TNIC-3 network, `tnic3_data.zip` | Hoberg-Phillips data library | no: download |
 | 2020 ZCTA-to-county relationship file | U.S. Census Bureau | `data/raw/zcta_county.txt` |
 | CBSA delineation file, July 2023 | U.S. Census Bureau | `data/raw/cbsa_2023.xlsx` |
-| NAICS concordances 1997→2002→2007→2012→2017→2022 and the 2017 and 2022 six-digit code lists | U.S. Census Bureau | `data/raw/naics/` |
 
 The SafeGraph and WRDS data, and every file derived from them at the POI, brand, firm or pair level, can be
 shared only with researchers who hold the corresponding licenses. With those licenses, every file is rebuilt
@@ -49,7 +48,7 @@ Run the scripts in `code/` in this order; each stage skips months it has already
 | 2 | `python3 code/01_extract_month.py all` | one pass over the raw shards → brand-level monthly extracts in `data/extract/` (about 90 minutes). Parses both the pre- and post-May-2024 encodings and keeps one record per POI in the November 2025 release, which ships every POI twice |
 | 3 | `python3 code/02_get_crsp_names.py` | CRSP name histories, monthly stock file, and delistings in `data/raw/` |
 | 4 | `python3 code/03_brand_firm_map.py` | point-in-time brand → PERMNO map; `OVERRIDES` holds the 91 dated ownership spells (acquisitions, divestitures, spin-offs, take-privates, bankruptcies) |
-| 5 | `python3 code/04_get_wrds.py`, then `python3 code/00_aux_inputs.py wrds links naics` | CCM, Compustat, factors, IBES, and CRSP daily returns for the mapped firms; customer segments, 13F ownership ratios, and segment customers matched to Compustat firms by normalized name; Compustat NAICS codes of every vintage mapped to four-digit NAICS 2022 industries (`data/derived/naics4_2022.parquet`) |
+| 5 | `python3 code/04_get_wrds.py`, then `python3 code/00_aux_inputs.py wrds links` | CCM, Compustat, factors, IBES, and CRSP daily returns for the mapped firms; customer segments, 13F ownership ratios, and segment customers matched to Compustat firms by normalized name |
 | 6 | `python3 code/05_build_firm_month.py` | firm-month aggregates |
 | 7 | `python3 code/06_similarity.py`, `python3 code/06b_rps_variants.py` | real-time networks (window t−12 to t−1): shared tastes (RPS), store footprint, customer homes, income, raw co-shopping |
 | 8 | `python3 code/19_overlap_family.py`, `python3 code/26_co_variants.py` | customer overlap and its local-market and firm-specific components; network variants |
@@ -67,7 +66,7 @@ Nasdaq; trailing-year panel card spending at least 0.1% of the latest annual sal
 November 2025; returns August 2019 to December 2025 (77 months).
 
 Regression controls (Table 9, column 5, and every table that uses them) include the own-industry peers' and industry
-returns at both the FF48 and the four-digit NAICS level (Compustat NAICS codes put on the NAICS 2022 vintage), and log
+returns at both the FF48 and the four-digit NAICS level (Compustat NAICS codes), and log
 book-to-market with an indicator for zero or negative book equity, for which log book-to-market is set to zero
 (`13_main_tables.CONTROLS`). The industry-adjusted sort of Table 7, Panel B, and its placebo in Table 17 project the peer
 return on the NAICS-4 and same-category returns (`13_main_tables.ADJ`).
@@ -114,7 +113,7 @@ quotes (`*.json`, `permutation.txt`).
 | Path | |
 |---|---|
 | `code/` | all scripts, `aplib.py` and `figstyle.py`, and the shell scripts that chain them |
-| `data/raw/` | the Census crosswalks and NAICS concordances |
+| `data/raw/` | the two Census files |
 | `tables/`, `figures/` | the article's tables and figures as produced by the code |
 | `logs/` | run logs and saved results |
 | `requirements.txt` | Python package versions |

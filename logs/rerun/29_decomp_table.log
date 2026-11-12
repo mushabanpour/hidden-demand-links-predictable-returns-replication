@@ -1,7 +1,7 @@
-['sig'] {'sig': (np.float64(0.173), np.float64(2.55))}
-['co_E', 'co_X'] {'co_E': (np.float64(0.227), np.float64(2.2)), 'co_X': (np.float64(-0.034), np.float64(-1.16))}
-['co_E', 'co_X', 'geo_all'] {'co_E': (np.float64(0.116), np.float64(2.04)), 'co_X': (np.float64(-0.028), np.float64(-1.09)), 'geo_all': (np.float64(0.206), np.float64(1.34))}
-['sig', 'sc_store', 'sc_home'] {'sig': (np.float64(0.168), np.float64(2.52)), 'sc_store': (np.float64(0.231), np.float64(0.72)), 'sc_home': (np.float64(-0.357), np.float64(-0.7))}
-['co_strong', 'co_medium', 'co_weak'] {'co_strong': (np.float64(0.153), np.float64(2.43)), 'co_medium': (np.float64(0.088), np.float64(2.07)), 'co_weak': (np.float64(0.057), np.float64(2.65))}
-['sig', 'RPS_pos', 'HOME_pos'] {'sig': (np.float64(0.166), np.float64(2.59)), 'RPS_pos': (np.float64(0.252), np.float64(1.72)), 'HOME_pos': (np.float64(-1.288), np.float64(-1.4))}
-['RPS_pos'] {'RPS_pos': (np.float64(0.277), np.float64(1.75))}
+['sig'] {'sig': (np.float64(0.161), np.float64(2.68))}
+['co_E', 'co_X'] {'co_E': (np.float64(0.204), np.float64(2.49)), 'co_X': (np.float64(-0.027), np.float64(-1.03))}
+['co_E', 'co_X', 'geo_all'] {'co_E': (np.float64(0.101), np.float64(1.91)), 'co_X': (np.float64(-0.022), np.float64(-0.82)), 'geo_all': (np.float64(0.181), np.float64(1.38))}
+['sig', 'sc_store', 'sc_home'] {'sig': (np.float64(0.158), np.float64(2.63)), 'sc_store': (np.float64(0.201), np.float64(0.66)), 'sc_home': (np.float64(-0.359), np.float64(-0.68))}
+['co_strong', 'co_medium', 'co_weak'] {'co_strong': (np.float64(0.147), np.float64(2.52)), 'co_medium': (np.float64(0.088), np.float64(2.13)), 'co_weak': (np.float64(0.06), np.float64(2.9))}
+['sig', 'RPS_pos', 'HOME_pos'] {'sig': (np.float64(0.156), np.float64(2.74)), 'RPS_pos': (np.float64(0.275), np.float64(1.73)), 'HOME_pos': (np.float64(-1.556), np.float64(-1.7))}
+['RPS_pos'] {'RPS_pos': (np.float64(0.294), np.float64(1.74))}

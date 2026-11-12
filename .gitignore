@@ -4,7 +4,6 @@ data/*
 data/raw/*
 !data/raw/zcta_county.txt
 !data/raw/cbsa_2023.xlsx
-!data/raw/naics/
 __pycache__/
 *.pyc
 .DS_Store

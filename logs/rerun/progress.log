@@ -1,45 +1,45 @@
-20:45:29 start 13_main_tables.py co
-20:45:35 done 13_main_tables.py co
-20:45:35 start 30_eventtime_cf.py
-20:45:41 done 30_eventtime_cf.py
-20:45:41 start 59_fcap_universe.py
-20:46:46 done 59_fcap_universe.py
-20:46:46 start 32_mechanism_extra.py
-20:47:06 done 32_mechanism_extra.py
-20:47:06 start 15_cashflow_news.py co
-20:47:11 done 15_cashflow_news.py co
-20:47:11 start 16_attention.py co
-20:47:15 done 16_attention.py co
-20:47:15 start 44_vintage.py
-20:47:16 done 44_vintage.py
-20:47:16 start 47_retail_universe.py
-20:47:17 done 47_retail_universe.py
-20:47:17 start 17_robustness.py co
-20:47:45 done 17_robustness.py co
-20:47:45 start 18_descriptives.py
-20:48:10 done 18_descriptives.py
-20:48:10 start 28_fig_dist.py
-20:48:11 done 28_fig_dist.py
-20:48:11 start 54_geo_category.py
-20:48:24 done 54_geo_category.py
-20:48:24 start 29_decomp_table.py
-20:48:28 done 29_decomp_table.py
-20:48:28 start 14_comovement.py
-20:48:35 done 14_comovement.py
-20:48:35 start 27_intramonth.py
-20:48:39 done 27_intramonth.py
-20:48:39 start 40_text_numbers.py
-20:48:43 done 40_text_numbers.py
-20:48:43 start 42_implementability.py
-20:48:47 done 42_implementability.py
-20:48:47 start 55_card_power.py
-20:48:52 done 55_card_power.py
-20:48:52 start 56_placebo_ext.py
-20:50:54 done 56_placebo_ext.py
-20:50:54 start 46_overlap_validation.py
-20:51:08 done 46_overlap_validation.py
-20:51:08 start 64_fundamentals_comove.py
-20:51:21 done 64_fundamentals_comove.py
-20:51:21 start 65_fig_byyear.py
-20:51:25 done 65_fig_byyear.py
+20:59:42 start 13_main_tables.py co
+20:59:49 done 13_main_tables.py co
+20:59:49 start 30_eventtime_cf.py
+20:59:55 done 30_eventtime_cf.py
+20:59:55 start 59_fcap_universe.py
+21:00:57 done 59_fcap_universe.py
+21:00:57 start 32_mechanism_extra.py
+21:01:18 done 32_mechanism_extra.py
+21:01:18 start 15_cashflow_news.py co
+21:01:24 done 15_cashflow_news.py co
+21:01:24 start 16_attention.py co
+21:01:28 done 16_attention.py co
+21:01:28 start 44_vintage.py
+21:01:29 done 44_vintage.py
+21:01:29 start 47_retail_universe.py
+21:01:30 done 47_retail_universe.py
+21:01:30 start 17_robustness.py co
+21:01:59 done 17_robustness.py co
+21:01:59 start 18_descriptives.py
+21:02:25 done 18_descriptives.py
+21:02:25 start 28_fig_dist.py
+21:02:26 done 28_fig_dist.py
+21:02:26 start 54_geo_category.py
+21:02:40 done 54_geo_category.py
+21:02:40 start 29_decomp_table.py
+21:02:44 done 29_decomp_table.py
+21:02:44 start 14_comovement.py
+21:02:52 done 14_comovement.py
+21:02:52 start 27_intramonth.py
+21:02:56 done 27_intramonth.py
+21:02:56 start 40_text_numbers.py
+21:03:01 done 40_text_numbers.py
+21:03:01 start 42_implementability.py
+21:03:05 done 42_implementability.py
+21:03:05 start 55_card_power.py
+21:03:10 done 55_card_power.py
+21:03:10 start 56_placebo_ext.py
+21:05:11 done 56_placebo_ext.py
+21:05:11 start 46_overlap_validation.py
+21:05:26 done 46_overlap_validation.py
+21:05:26 start 64_fundamentals_comove.py
+21:05:38 done 64_fundamentals_comove.py
+21:05:38 start 65_fig_byyear.py
+21:05:42 done 65_fig_byyear.py
 ALLDONE
